@@ -7,7 +7,7 @@ date: 2026-10-10 20:00:00
 updated: 2026-10-10 23:00:00
 ---
 
-欢迎查阅 **XFM 主题文档**。本站收录两套由 XFM 开发并开源的 Hexo 主题的完整技术文档：面向长期写作的 **hexo-theme-xfm**，以及面向机构官网的 **hexo-theme-xongyi**。
+欢迎查阅 **XFM开源官方文档**。本站收录两套由 XFM 开发并开源的 Hexo 主题的完整技术文档：面向长期写作的 **hexo-theme-xfm**，以及面向机构官网的 **hexo-theme-xongyi**。
 
 > 文档内容由各主题仓库的 `README.md`、`_config.yml` 与示例配置解析整理而成，与源码保持同步。
 

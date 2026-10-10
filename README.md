@@ -1,6 +1,6 @@
 # xfm-docs
 
-**XFM 主题文档站** —— 收录两套由 [XFM](https://github.com/xfm0797) 开发并开源的 Hexo 主题的官方技术文档。
+**XFM 开源官方文档** —— 收录两套由 [XFM](https://github.com/xfm0797) 开发并开源的 Hexo 主题的官方技术文档。
 
 | 主题 | 定位 | 源码 |
 | --- | --- | --- |

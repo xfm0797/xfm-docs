@@ -1,11 +1,11 @@
 ########################################################################
-#  XFM 主题文档站
+#  XFM 开源官方文档
 #  收录 hexo-theme-xfm 与 hexo-theme-xongyi 两套主题的官方技术文档
 #  形态：docs（文档模式）
 ########################################################################
 
 # ============================== 站点基础 ==============================
-title: XFM 主题文档
+title: XFM开源官方文档
 subtitle: hexo-theme-xfm · hexo-theme-xongyi
 description: 高端大气的三模式 Hexo 主题与通用企业官网主题的官方技术文档
 keywords: Hexo,主题,hexo-theme-xfm,hexo-theme-xongyi,文档
