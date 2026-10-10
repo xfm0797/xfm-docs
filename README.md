@@ -4,10 +4,11 @@
 
 | 主题 | 定位 | 源码 |
 | --- | --- | --- |
-| [hexo-theme-xfm](https://github.com/xfm0797/hexo-theme-xfm) | 高端大气的三模式主题（博客 / 笔记 / 文档） | 内嵌于 `themes/xfm` |
+| [hexo-theme-xfm](https://github.com/xfm0797/hexo-theme-xfm) | 高端大气的三模式主题（博客 / 笔记 / 文档） | Git submodule → `themes/xfm` |
 | [hexo-theme-xongyi](https://github.com/xfm0797/hexo-theme-xongyi) | 面向机构官网的通用主题（企业 / 政务 / 教育） | 独立仓库 |
 
 > 本站由 **hexo-theme-xfm** 的 `docs` 模式驱动，使用 Hexo 8 构建。
+> 主题通过 **git submodule** 引用官方仓库 `themes/xfm`，仓库内不存放主题源码，构建时按 `.gitmodules` 检出即可。
 
 ## 文档结构
 
@@ -37,12 +38,16 @@ source/
 ├── about/                  # 关于本站
 ├── _posts/                 # 站点动态
 └── ...
-themes/xfm/                 # hexo-theme-xfm 主题（内嵌，随仓库分发）
+themes/xfm/                 # hexo-theme-xfm 主题（git submodule → 官方仓库）
 ```
 
 ## 本地开发
 
 ```bash
+# 首次克隆需带上主题子模块（或克隆后执行 git submodule update --init --recursive）
+git clone --recurse-submodules https://github.com/xfm0797/xfm-docs.git
+cd xfm-docs
+
 npm install
 hexo clean
 hexo server          # http://localhost:4000
