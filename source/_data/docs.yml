@@ -1,0 +1,40 @@
+- title: 开始
+  children:
+    - title: 文档中心
+      path: /docs/
+- title: hexo-theme-xfm
+  children:
+    - title: 主题简介
+      path: /docs/xfm/
+    - title: 安装部署
+      path: /docs/xfm/install/
+    - title: 三种模式
+      path: /docs/xfm/mode/
+    - title: 自适应式响应
+      path: /docs/xfm/adaptive/
+    - title: 核心配置
+      path: /docs/xfm/config/
+    - title: 标签插件
+      path: /docs/xfm/tags/
+    - title: Front-matter
+      path: /docs/xfm/front-matter/
+    - title: 常见问题
+      path: /docs/xfm/faq/
+- title: hexo-theme-xongyi
+  children:
+    - title: 主题简介
+      path: /docs/xongyi/
+    - title: 安装部署
+      path: /docs/xongyi/install/
+    - title: 预设布局
+      path: /docs/xongyi/preset/
+    - title: 首页板块
+      path: /docs/xongyi/sections/
+    - title: 配置项详解
+      path: /docs/xongyi/config/
+    - title: 写新闻与内容
+      path: /docs/xongyi/writing/
+    - title: 一键部署
+      path: /docs/xongyi/deploy/
+    - title: 常见问题
+      path: /docs/xongyi/faq/

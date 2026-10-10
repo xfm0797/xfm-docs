@@ -1,0 +1,106 @@
+########################################################################
+#  XFM 主题文档站
+#  收录 hexo-theme-xfm 与 hexo-theme-xongyi 两套主题的官方技术文档
+#  形态：docs（文档模式）
+########################################################################
+
+# ============================== 站点基础 ==============================
+title: XFM 主题文档
+subtitle: hexo-theme-xfm · hexo-theme-xongyi
+description: 高端大气的三模式 Hexo 主题与通用企业官网主题的官方技术文档
+keywords: Hexo,主题,hexo-theme-xfm,hexo-theme-xongyi,文档
+author: XFM
+language: zh-CN
+timezone: Asia/Shanghai
+
+# ============================== 网址 ==============================
+url: https://xfm0797.github.io/xfm-docs
+root: /
+permalink: :year/:month/:day/:title/
+permalink_defaults:
+
+source_dir: source
+public_dir: public
+theme: xfm
+
+# ============================== 语法高亮 ==============================
+highlight:
+  enable: true
+  line_number: true
+  auto_detect: false
+  tab_replace: false
+  wrap: true
+  hljs: false
+
+prismjs:
+  enable: false
+
+per_page: 6
+pagination_dir: page
+
+date_format: YYYY-MM-DD
+time_format: HH:mm:ss
+updated_option: mtime
+
+# ============================== 主题配置 ==============================
+# 站点级覆盖，优先级高于主题自带 themes/xfm/_config.yml
+theme_config:
+  # 形态：docs 文档模式（blog / notes / docs）
+  mode: docs
+
+  appearance:
+    scheme: auto
+    primary: "#4f6bed"
+    radius: normal
+    glass_navbar: true
+
+  # 顶部导航
+  menu:
+    首页:
+      path: /
+      icon: home
+    文档:
+      path: /docs/
+      icon: file-doc
+    归档:
+      path: /archives/
+      icon: archive
+    关于:
+      path: /about/
+      icon: user
+
+  # 文档模式：侧栏树来自 source/_data/docs.yml
+  docs:
+    data_file: docs
+    expanded: true
+    auto_expand: true
+    page_nav: true
+    last_modified: true
+    toc: true
+
+  # 首页
+  index:
+    hero: true
+    layout: card
+    cover: false
+
+  search:
+    enable: true
+    hotkey: true
+
+  footer:
+    statistics: true
+
+  social:
+    github: https://github.com/xfm0797
+
+  # 未安装 hexo-generator-feed，关闭 RSS 入口避免空链接
+  vendors:
+    rss_navbar: false
+
+  comments:
+    enable: false
+
+  sitemap:
+    enable: true
+    robots: true
