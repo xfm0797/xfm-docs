@@ -154,6 +154,10 @@ theme_config:
     css:
       # 文档树：分组默认收起、点击展开（含箭头样式）
       - xfm-docs-tree.css
+      # 博客形态：侧栏挂件全部展示、去掉内部滚动
+      - xfm-blog.css
+      # 分页：禁用态上一页/下一页占位样式（配合 overrides/pagination.ejs）
+      - xfm-pagination.css
     js:
       # {% tabs %} 选项卡点击切换（主题 core.js 未内置）
       - xfm-tabs.js

@@ -1,0 +1,55 @@
+<%
+  /*
+   * 站点级覆盖：主题 _partials/pagination.ejs
+   *
+   * 目的：让分页条在「第 1 页 / 中间页 / 末页」保持完全一致的版式。
+   * 主题原版在「没有上一页」或「没有下一页」时会把对应按钮直接省略，于是：
+   *   第 1 页   → [页码] [Next]       页码整体偏左
+   *   末   页   → [Prev] [页码]       页码整体偏右
+   * 两处都不存在时才算居中对齐。覆盖版改为「始终输出两个按钮」，
+   * 不可用时渲染为禁用态占位（.is-disabled），页码因此恒定居中、各页一致。
+   *
+   * 由 scripts/pagination-view.js 在 before_generate 阶段注入；
+   * 本文件放在站点根目录 overrides/（不能放 scripts/，否则会被 Hexo 当脚本执行）。
+   * 不改主题 submodule。
+   */
+%>
+<% if (page.total > 1) { %>
+<nav class="pagination" role="navigation" aria-label="pagination">
+  <% if (page.prev) { %>
+  <a class="page-btn" href="<%= url_for(page.prev_link) %>" rel="prev" aria-label="prev">
+    <svg class="xfm-icon" aria-hidden="true"><use xlink:href="#xfm-i-arrow-left"></use></svg>
+    <span class="page-btn-text">Prev</span>
+  </a>
+  <% } else { %>
+  <span class="page-btn is-disabled" aria-disabled="true" aria-label="prev">
+    <svg class="xfm-icon" aria-hidden="true"><use xlink:href="#xfm-i-arrow-left"></use></svg>
+    <span class="page-btn-text">Prev</span>
+  </span>
+  <% } %>
+
+  <div class="page-numbers">
+    <% for (let i = 1; i <= page.total; i++) { %>
+      <% if (i === page.current) { %>
+      <span class="page-number is-current"><%= i %></span>
+      <% } else if (i === 1) { %>
+      <a class="page-number" href="<%= url_for('/') %>"><%= i %></a>
+      <% } else { %>
+      <a class="page-number" href="<%= url_for('/page/' + i + '/') %>"><%= i %></a>
+      <% } %>
+    <% } %>
+  </div>
+
+  <% if (page.next) { %>
+  <a class="page-btn" href="<%= url_for(page.next_link) %>" rel="next" aria-label="next">
+    <span class="page-btn-text">Next</span>
+    <svg class="xfm-icon" aria-hidden="true"><use xlink:href="#xfm-i-arrow-right"></use></svg>
+  </a>
+  <% } else { %>
+  <span class="page-btn is-disabled" aria-disabled="true" aria-label="next">
+    <span class="page-btn-text">Next</span>
+    <svg class="xfm-icon" aria-hidden="true"><use xlink:href="#xfm-i-arrow-right"></use></svg>
+  </span>
+  <% } %>
+</nav>
+<% } %>
