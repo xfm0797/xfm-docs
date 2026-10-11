@@ -1,0 +1,6 @@
+# Cloudflare Pages 配置 — XFM 开源官方文档
+# 在 Cloudflare Dashboard 创建 Pages 项目并连接 GitHub 仓库后，
+# 构建命令填: npm run build ，输出目录填: public
+name = "xfm-docs"
+compatibility_date = "2026-01-01"
+pages_build_output_dir = "public"
