@@ -35,6 +35,17 @@ highlight:
 prismjs:
   enable: false
 
+# ============================== RSS / Feed ==============================
+# 由 hexo-generator-feed 生成；主题导航栏与页脚的 RSS 入口指向 /atom.xml
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+  hub:
+  content: true
+  content_limit: 140
+  content_limit_delim: " "
+
 per_page: 6
 pagination_dir: page
 
@@ -91,6 +102,9 @@ theme_config:
     auto_expand: true
     page_nav: true
     last_modified: true
+    # 正文底部显示「编辑此页」链接：最终地址 = edit_base + page.source
+    edit_link: true
+    edit_base: https://github.com/xfm0797/xfm-docs/edit/main/source/
     toc: true
 
   # 首页
@@ -108,14 +122,34 @@ theme_config:
 
   social:
     github: https://github.com/xfm0797
+    email: mailto:xfm@xfm.qzz.io
+    rss: /atom.xml
 
-  # 未安装 hexo-generator-feed，关闭 RSS 入口避免空链接
+  # 已安装 hexo-generator-feed，开启导航栏 / 页脚的 RSS 入口
   vendors:
-    rss_navbar: false
+    rss: /atom.xml
+    rss_navbar: true
 
+  # 评论：Waline（自建服务端）
   comments:
-    enable: false
+    enable: true
+    type: waline
+    lazyload: true
+    title: 评论
+    waline:
+      # 主题 core.js 会把这里的键原样交给 @waline/client v2 的 init()，
+      # v2 的必填参数是驼峰 serverURL（主题自带的 server_url 键名对 v2 无效）。
+      serverURL: https://waline.xfm.qzz.io
+      emoji:
+        - https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo
+      lang: zh-CN
+      avatar: mp
 
   sitemap:
     enable: true
     robots: true
+
+  # 站点级补丁脚本：主题 core.js 未内置 {% tabs %} 切换逻辑，这里补齐
+  custom:
+    js:
+      - xfm-tabs.js

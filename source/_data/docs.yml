@@ -1,5 +1,5 @@
 # ==============================================================================
-# XFM Theme —— 文档模式侧边栏数据
+# XFM 文档站 —— 文档模式侧边栏数据
 # 位置：站点 source/_data/docs.yml
 # 读取者：layout/_partials/docs/nav.ejs -> xfm_docs_nav()（scripts/helpers/index.js）
 #
@@ -8,95 +8,98 @@
 #   path     链接地址，与文档页面的 URL 一一对应（分组节点可省略）
 #   children 子节点数组，支持任意层级递归
 # 兼容别名：name / url / permalink 亦可，items / sections 等价于 children。
+#
+# 结构：按主题分区
+#   hexo-theme-xfm      -> /docs/xfm/*
+#   hexo-theme-xongyi   -> /docs/xongyi/*
+# 文档中心落地页 /docs/ 只作为入口，不列入树（不参与翻页序列）。
 # ==============================================================================
 
-# --- 一、快速开始 -------------------------------------------------------------
-- title: 快速开始
+# --- 一、hexo-theme-xfm -------------------------------------------------------
+- title: hexo-theme-xfm
   children:
-    - title: 主题简介
-      path: /docs/intro/
-    - title: 安装与部署
-      path: /docs/install/
-    - title: 5 分钟上手
-      path: /docs/quick-start/
+    - title: 文档首页
+      path: /docs/xfm/
 
-# --- 二、配置参考 -------------------------------------------------------------
-- title: 配置参考
-  children:
-    - title: 配置总览
-      path: /docs/config/
-    - title: 外观与品牌
-      path: /docs/config-appearance/
-    - title: 导航与菜单
-      path: /docs/config-navbar/
-    - title: 首页与文章页
-      path: /docs/config-index-post/
-    - title: 侧边栏与页脚
-      path: /docs/config-sidebar-footer/
+    - title: 快速开始
+      children:
+        - title: 主题简介
+          path: /docs/xfm/intro/
+        - title: 安装与部署
+          path: /docs/xfm/install/
+        - title: 5 分钟上手
+          path: /docs/xfm/quick-start/
 
-# --- 三、三种模式 -------------------------------------------------------------
-- title: 三种模式
-  children:
-    - title: Blog 博客模式
-      path: /docs/mode-blog/
-    - title: Notes 笔记模式
-      path: /docs/mode-notes/
-    - title: Docs 文档模式
-      path: /docs/mode-docs/
+    - title: 配置参考
+      children:
+        - title: 配置总览
+          path: /docs/xfm/config/
+        - title: 外观与品牌
+          path: /docs/xfm/config-appearance/
+        - title: 导航与菜单
+          path: /docs/xfm/config-navbar/
+        - title: 首页与文章页
+          path: /docs/xfm/config-index-post/
+        - title: 侧边栏与页脚
+          path: /docs/xfm/config-sidebar-footer/
 
-# --- 四、自适应式响应 ---------------------------------------------------------
-- title: 自适应式响应
-  children:
-    - title: 工作原理
-      path: /docs/adaptive/
-    - title: 三档配置
-      path: /docs/adaptive-tiers/
+    - title: 三种模式
+      children:
+        - title: Blog 博客模式
+          path: /docs/xfm/mode-blog/
+        - title: Notes 笔记模式
+          path: /docs/xfm/mode-notes/
+        - title: Docs 文档模式
+          path: /docs/xfm/mode-docs/
 
-# --- 五、标签插件 -------------------------------------------------------------
-- title: 标签插件
-  children:
-    - title: 标签插件总览
-      path: /docs/tags/
-    - title: 提示与折叠
-      path: /docs/tags-note-fold/
-    - title: 选项卡与时间轴
-      path: /docs/tags-tabs-timeline/
-    - title: 栅格与行内元素
-      path: /docs/tags-layout/
-    - title: 图表与链接卡片
-      path: /docs/tags-mermaid/
+    - title: 自适应式响应
+      children:
+        - title: 工作原理
+          path: /docs/xfm/adaptive/
+        - title: 三档配置
+          path: /docs/xfm/adaptive-tiers/
 
-# --- 六、扩展能力 -------------------------------------------------------------
-- title: 扩展能力
-  children:
-    - title: 搜索
-      path: /docs/search/
-    - title: 评论系统
-      path: /docs/comments/
-    - title: 代码块与第三方增强
-      path: /docs/vendors/
-    - title: SEO 与站点地图
-      path: /docs/seo/
+    - title: 标签插件
+      children:
+        - title: 标签插件总览
+          path: /docs/xfm/tags/
+        - title: 提示与折叠
+          path: /docs/xfm/tags-note-fold/
+        - title: 选项卡与时间轴
+          path: /docs/xfm/tags-tabs-timeline/
+        - title: 栅格与行内元素
+          path: /docs/xfm/tags-layout/
+        - title: 图表与链接卡片
+          path: /docs/xfm/tags-mermaid/
 
-# --- 七、定制与进阶 -----------------------------------------------------------
-- title: 定制与进阶
-  children:
-    - title: 自定义样式与注入
-      path: /docs/customize/
-    - title: Front-matter 字段
-      path: /docs/front-matter/
-    - title: 运行时 API 与目录结构
-      path: /docs/api-structure/
+    - title: 扩展能力
+      children:
+        - title: 搜索
+          path: /docs/xfm/search/
+        - title: 评论系统
+          path: /docs/xfm/comments/
+        - title: 代码块与第三方增强
+          path: /docs/xfm/vendors/
+        - title: SEO 与站点地图
+          path: /docs/xfm/seo/
 
-# --- 八、帮助 ----------------------------------------------------------------
-- title: 帮助
-  children:
-    - title: 常见问题
-      path: /docs/faq/
-    - title: 故障排查
-      path: /docs/troubleshooting/
+    - title: 定制与进阶
+      children:
+        - title: 自定义样式与注入
+          path: /docs/xfm/customize/
+        - title: Front-matter 字段
+          path: /docs/xfm/front-matter/
+        - title: 运行时 API 与目录结构
+          path: /docs/xfm/api-structure/
 
-# --- 九、hexo-theme-xongyi（机构官网主题） -------------------------------------
+    - title: 帮助
+      children:
+        - title: 常见问题
+          path: /docs/xfm/faq/
+        - title: 故障排查
+          path: /docs/xfm/troubleshooting/
+
+# --- 二、hexo-theme-xongyi（机构官网主题） -------------------------------------
 - title: hexo-theme-xongyi
   children:
     - title: 主题简介

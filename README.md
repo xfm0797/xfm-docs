@@ -14,19 +14,22 @@
 
 ```
 source/
-├── _data/docs.yml          # 文档侧栏树（两级：主题 → 页面）
+├── _data/docs.yml          # 文档侧栏树（按主题分区，可递归到三级）
 ├── docs/
-│   ├── index.md            # 文档中心
-│   ├── xfm/                # hexo-theme-xfm 文档（8 篇）
-│   │   ├── index.md        #   主题简介
-│   │   ├── install/        #   安装部署
-│   │   ├── mode/           #   三种模式
-│   │   ├── adaptive/       #   自适应式响应
-│   │   ├── config/         #   核心配置
-│   │   ├── tags/           #   标签插件
-│   │   ├── front-matter/   #   Front-matter
-│   │   └── faq/            #   常见问题
-│   └── xongyi/             # hexo-theme-xongyi 文档（8 篇）
+│   ├── index.md            # 文档中心（两套主题总入口）
+│   ├── xfm/                # hexo-theme-xfm 文档（28 篇）→ /docs/xfm/*
+│   │   ├── index.md        #   文档首页
+│   │   ├── intro/          #   快速开始 · 主题简介
+│   │   ├── install/        #   快速开始 · 安装与部署
+│   │   ├── quick-start/    #   快速开始 · 5 分钟上手
+│   │   ├── config*/        #   配置参考（总览 / 外观 / 导航 / 首页 / 侧栏）
+│   │   ├── mode-*/         #   三种模式（blog / notes / docs）
+│   │   ├── adaptive*/      #   自适应式响应
+│   │   ├── tags*/          #   标签插件
+│   │   ├── search|comments|vendors|seo/   # 扩展能力
+│   │   ├── customize|front-matter|api-structure/  # 定制与进阶
+│   │   └── faq|troubleshooting/           # 帮助
+│   └── xongyi/             # hexo-theme-xongyi 文档（8 篇）→ /docs/xongyi/*
 │       ├── index.md        #   主题简介
 │       ├── install/        #   安装部署
 │       ├── preset/         #   预设布局
@@ -35,11 +38,24 @@ source/
 │       ├── writing/        #   写新闻与内容
 │       ├── deploy/         #   一键部署
 │       └── faq/            #   常见问题
+├── js/xfm-tabs.js          # 站点级补丁：{% tabs %} 切换（主题 core.js 未内置）
 ├── about/                  # 关于本站
 ├── _posts/                 # 站点动态
 └── ...
 themes/xfm/                 # hexo-theme-xfm 主题（git submodule → 官方仓库）
 ```
+
+## 启用能力
+
+| 能力 | 配置 | 说明 |
+| --- | --- | --- |
+| RSS 订阅 | `feed`（插件 `hexo-generator-feed`）+ 主题 `vendors.rss_navbar` | 产出 `/atom.xml`，导航栏显示 RSS 入口 |
+| 编辑此页 | 主题 `docs.edit_link` + `docs.edit_base` | 文档页底部链接到 `edit_base + page.source` |
+| 评论 | 主题 `comments`（`type: waline`） | 服务端 `https://waline.xfm.qzz.io` |
+| 社交邮箱 | 主题 `social.email` | `xfm@xfm.qzz.io` |
+
+> 注：主题 `core.js` 未内置 `{% tabs %}` 的切换逻辑，且 Waline 配置会原样透传给 `@waline/client`（v2 需驼峰 `serverURL`）。这两处均由**站点层**规避（补丁脚本 + 正确键名），不改动主题仓库。
+
 
 ## 本地开发
 
