@@ -60,15 +60,29 @@ theme_config:
     首页:
       path: /
       icon: home
-    文档:
-      path: /docs/
-      icon: file-doc
     归档:
       path: /archives/
       icon: archive
-    关于:
-      path: /about/
-      icon: user
+    分类:
+      path: /categories/
+      icon: folder
+    标签:
+      path: /tags/
+      icon: tag
+    文档:
+      path: /docs/
+      icon: file-doc
+    笔记:
+      path: /notes/
+      icon: book
+    更多:
+      children:
+        友链:
+          path: /links/
+          icon: link
+        关于:
+          path: /about/
+          icon: user
 
   # 文档模式：侧栏树来自 source/_data/docs.yml
   docs:
