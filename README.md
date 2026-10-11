@@ -29,21 +29,33 @@ source/
 │   │   ├── search|comments|vendors|seo/   # 扩展能力
 │   │   ├── customize|front-matter|api-structure/  # 定制与进阶
 │   │   └── faq|troubleshooting/           # 帮助
-│   └── xongyi/             # hexo-theme-xongyi 文档（8 篇）→ /docs/xongyi/*
-│       ├── index.md        #   主题简介
-│       ├── install/        #   安装部署
-│       ├── preset/         #   预设布局
-│       ├── sections/       #   首页板块
-│       ├── config/         #   配置项详解
-│       ├── writing/        #   写新闻与内容
-│       ├── deploy/         #   一键部署
-│       └── faq/            #   常见问题
+│   └── xongyi/             # hexo-theme-xongyi 文档（21 篇）→ /docs/xongyi/*
+│       ├── index.md        #   文档首页
+│       ├── intro|install|quick-start/              # 快速开始
+│       ├── preset|preset-examples/                 # 预设布局
+│       ├── sections|sections-config/               # 首页板块
+│       ├── config|config-brand-nav|config-contact|config-footer|config-features/  # 配置参考
+│       ├── writing|front-matter/                   # 内容与新闻
+│       ├── icons|customize|structure/              # 定制与进阶
+│       ├── deploy/                                 # 部署
+│       └── faq|troubleshooting/                    # 帮助
+├── css/xfm-docs-tree.css   # 站点级补丁：文档树分组默认收起 + 箭头样式
 ├── js/xfm-tabs.js          # 站点级补丁：{% tabs %} 切换（主题 core.js 未内置）
+├── js/xfm-docs-tree.js     # 站点级补丁：文档树分组点击展开 / 收起
 ├── about/                  # 关于本站
 ├── _posts/                 # 站点动态
 └── ...
 themes/xfm/                 # hexo-theme-xfm 主题（git submodule → 官方仓库）
 ```
+
+## 文档侧栏的展开行为
+
+文档树的分组（`hexo-theme-xfm` / `hexo-theme-xongyi` 及其下的各章节）**默认收起，点击展开**：
+
+- **服务端**已把「当前页所在分支」的各级祖先标记为 `is-open`，因此默认只展开你正在阅读的那条路径，其余一律收起（无 JS 也不会闪开）；
+- `source/css/xfm-docs-tree.css` 负责收起态与箭头样式，`source/js/xfm-docs-tree.js` 负责点击（标签整行或箭头）与键盘切换；
+- 规则基于 `.has-children` 通用判断，**后续新增的文档分组自动生效**，无需逐页配置。
+
 
 ## 启用能力
 
@@ -53,8 +65,11 @@ themes/xfm/                 # hexo-theme-xfm 主题（git submodule → 官方�
 | 编辑此页 | 主题 `docs.edit_link` + `docs.edit_base` | 文档页底部链接到 `edit_base + page.source` |
 | 评论 | 主题 `comments`（`type: waline`） | 服务端 `https://waline.xfm.qzz.io` |
 | 社交邮箱 | 主题 `social.email` | `xfm@xfm.qzz.io` |
+| 文档树折叠 | 主题 `custom.css` / `custom.js` | 分组默认收起、点击展开，当前页分支自动展开 |
 
-> 注：主题 `core.js` 未内置 `{% tabs %}` 的切换逻辑，且 Waline 配置会原样透传给 `@waline/client`（v2 需驼峰 `serverURL`）。这两处均由**站点层**规避（补丁脚本 + 正确键名），不改动主题仓库。
+> 注：主题 `core.js` 未内置 `{% tabs %}` 的切换逻辑，也未给 docs 侧栏的 `.xfm-nav-toggle` 绑定任何点击处理（箭头还没有样式）。这两处均由**站点层**规避（补丁脚本 + 样式），不改动主题仓库。
+>
+> 另：Waline 配置会被原样透传给 `@waline/client`，而 v2 的必填项是**驼峰 `serverURL`**（主题自带的 `server_url` 对 v2 无效），因此站点配置里使用 `waline.serverURL`。
 
 
 ## 本地开发

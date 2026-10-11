@@ -149,7 +149,13 @@ theme_config:
     enable: true
     robots: true
 
-  # 站点级补丁脚本：主题 core.js 未内置 {% tabs %} 切换逻辑，这里补齐
+  # 站点级补丁：主题未内置的能力在站点层补齐（不改主题 submodule）
   custom:
+    css:
+      # 文档树：分组默认收起、点击展开（含箭头样式）
+      - xfm-docs-tree.css
     js:
+      # {% tabs %} 选项卡点击切换（主题 core.js 未内置）
       - xfm-tabs.js
+      # 文档树分组展开/收起（主题只处理了笔记侧栏）
+      - xfm-docs-tree.js

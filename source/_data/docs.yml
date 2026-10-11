@@ -102,19 +102,69 @@
 # --- 二、hexo-theme-xongyi（机构官网主题） -------------------------------------
 - title: hexo-theme-xongyi
   children:
-    - title: 主题简介
+    - title: 文档首页
       path: /docs/xongyi/
-    - title: 安装部署
-      path: /docs/xongyi/install/
+
+    - title: 快速开始
+      children:
+        - title: 主题简介
+          path: /docs/xongyi/intro/
+        - title: 安装与部署
+          path: /docs/xongyi/install/
+        - title: 5 分钟上手
+          path: /docs/xongyi/quick-start/
+
     - title: 预设布局
-      path: /docs/xongyi/preset/
+      children:
+        - title: 三套预设
+          path: /docs/xongyi/preset/
+        - title: 预设示例
+          path: /docs/xongyi/preset-examples/
+
     - title: 首页板块
-      path: /docs/xongyi/sections/
-    - title: 配置项详解
-      path: /docs/xongyi/config/
-    - title: 写新闻与内容
-      path: /docs/xongyi/writing/
-    - title: 一键部署
-      path: /docs/xongyi/deploy/
-    - title: 常见问题
-      path: /docs/xongyi/faq/
+      children:
+        - title: 板块总览
+          path: /docs/xongyi/sections/
+        - title: 板块配置详解
+          path: /docs/xongyi/sections-config/
+
+    - title: 配置参考
+      children:
+        - title: 配置总览
+          path: /docs/xongyi/config/
+        - title: 品牌与导航
+          path: /docs/xongyi/config-brand-nav/
+        - title: 联系与地图
+          path: /docs/xongyi/config-contact/
+        - title: 页脚与备案
+          path: /docs/xongyi/config-footer/
+        - title: 功能与统计
+          path: /docs/xongyi/config-features/
+
+    - title: 内容与新闻
+      children:
+        - title: 写新闻与内容
+          path: /docs/xongyi/writing/
+        - title: 页面与 Front-matter
+          path: /docs/xongyi/front-matter/
+
+    - title: 定制与进阶
+      children:
+        - title: 图标速查
+          path: /docs/xongyi/icons/
+        - title: 自定义样式与模板
+          path: /docs/xongyi/customize/
+        - title: 目录结构与运行时
+          path: /docs/xongyi/structure/
+
+    - title: 部署
+      children:
+        - title: 一键部署
+          path: /docs/xongyi/deploy/
+
+    - title: 帮助
+      children:
+        - title: 常见问题
+          path: /docs/xongyi/faq/
+        - title: 故障排查
+          path: /docs/xongyi/troubleshooting/
