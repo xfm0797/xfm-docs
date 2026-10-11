@@ -45,8 +45,9 @@ updated_option: mtime
 # ============================== 主题配置 ==============================
 # 站点级覆盖，优先级高于主题自带 themes/xfm/_config.yml
 theme_config:
-  # 形态：docs 文档模式（blog / notes / docs）
-  mode: docs
+  # 主题默认形态：blog 博客模式（blog / notes / docs）
+  # 说明：文档页通过各自 front-matter 的 `mode: docs` 覆盖，仍以 docs 三栏形态渲染
+  mode: blog
 
   appearance:
     scheme: auto
