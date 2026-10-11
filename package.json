@@ -1,14 +1,22 @@
 {
-  "name": "site",
+  "name": "xfm-docs",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "description": "XFM 开源官方文档 —— hexo-theme-xfm 与 hexo-theme-xongyi 两套主题的官方技术文档站",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "hexo generate",
+    "clean": "hexo clean",
+    "server": "hexo server",
+    "deploy": "hexo deploy"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "hexo",
+    "hexo-theme",
+    "theme",
+    "docs"
+  ],
+  "author": "XFM",
+  "license": "MIT",
   "dependencies": {
     "hexo": "^8.1.2",
     "hexo-generator-archive": "^2.0.0",
