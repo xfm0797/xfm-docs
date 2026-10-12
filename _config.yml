@@ -107,6 +107,28 @@ theme_config:
     edit_base: https://github.com/xfm0797/xfm-docs/edit/main/source/
     toc: true
 
+  # 笔记模式：左侧导航的收录范围与排列方式
+  # 说明：主题原生 xfm_notes_nav() 会把「全站文章」都列进笔记侧栏，与归档重复；
+  #       本站约定「笔记」= 更新日志类记录，由 overrides/notes-nav.ejs 按下面的
+  #       note_categories 过滤后成列表（脚本 scripts/notes-view.js 注入覆盖）。
+  #       笔记类文章需在 front-matter 标注 mode: notes，左侧导航才会常驻。
+  notes:
+    # 只收录这些分类下的文章（空数组 = 不过滤，即列全站文章）
+    note_categories:
+      - 更新日志
+    # 只收录带这些标签的文章（空数组 = 不过滤；与 note_categories 同时配置时取交集）
+    note_tags: []
+    # 分组方式：none（不分组）/ category / date
+    group_by: none
+    # 组内排序：date / title / order
+    sort_by: date
+    # 排序方向：asc / desc
+    order: desc
+    # 条目是否显示日期
+    show_date: true
+    # 侧栏顶部是否显示搜索入口
+    search: true
+
   # 首页
   index:
     hero: true
