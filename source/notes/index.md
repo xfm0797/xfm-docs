@@ -3,7 +3,6 @@ title: 笔记
 description: 本站的更新日志与建设记录，按时间倒序排列，左侧导航常驻可连续翻阅
 mode: notes
 layout: page
-toc: false
 comments: false
 date: 2026-10-11 21:30:00
 updated: 2026-10-12 21:30:00

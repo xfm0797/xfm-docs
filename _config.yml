@@ -57,7 +57,8 @@ updated_option: mtime
 # 站点级覆盖，优先级高于主题自带 themes/xfm/_config.yml
 theme_config:
   # 主题默认形态：blog 博客模式（blog / notes / docs）
-  # 说明：文档页通过各自 front-matter 的 `mode: docs` 覆盖，仍以 docs 三栏形态渲染
+  # 说明：文档页通过各自 front-matter 的 `mode: docs`、笔记类文章通过 `mode: notes`
+  #       覆盖，仍各自维持自身形态；此处是全站兜底默认。
   mode: blog
 
   appearance:
@@ -65,6 +66,12 @@ theme_config:
     primary: "#4f6bed"
     radius: normal
     glass_navbar: true
+
+  # 博客挂件栏：挂件总高超过一屏时 sticky 会让底部挂件始终看不到，
+  # 故关闭 sticky，让挂件随页面正常流动（主题 v1.1.0 起该分支也不再加
+  # max-height / overflow 裁剪，取代原先的站点级 xfm-blog.css 补丁）
+  sidebar:
+    sticky: false
 
   # 顶部导航
   menu:
@@ -95,10 +102,25 @@ theme_config:
           path: /about/
           icon: user
 
+  # 菜单显示顺序（主题 v1.1.0 起原生支持）
+  # 说明：Hexo 用 deepMerge 合并 theme_config，站点新增的菜单键一律被追加到末尾，
+  #       故需要在这里显式声明顺序，把「文档 / 笔记」插到「更多」之前。
+  #       未列出的键按配置里的相对顺序排在后面。
+  menu_order:
+    - 首页
+    - 归档
+    - 分类
+    - 标签
+    - 文档
+    - 笔记
+    - 更多
+
   # 文档模式：侧栏树来自 source/_data/docs.yml
   docs:
     data_file: docs
-    expanded: true
+    # false = 默认收起全部分支（主题 v1.1.0 起原生支持，取代站点级 CSS/JS 补丁）；
+    # 配合 auto_expand: true，只展开「当前页所在的那条分支」，点击后可逐层展开。
+    expanded: false
     auto_expand: true
     page_nav: true
     last_modified: true
@@ -108,9 +130,8 @@ theme_config:
     toc: true
 
   # 笔记模式：左侧导航的收录范围与排列方式
-  # 说明：主题原生 xfm_notes_nav() 会把「全站文章」都列进笔记侧栏，与归档重复；
-  #       本站约定「笔记」= 更新日志类记录，由 overrides/notes-nav.ejs 按下面的
-  #       note_categories 过滤后成列表（脚本 scripts/notes-view.js 注入覆盖）。
+  # 说明：note_categories / note_tags 为主题 v1.1.0 起原生支持（两者皆空 = 收录全站文章，
+  #       同时配置取交集）；本站约定「笔记」= 更新日志类记录。
   #       笔记类文章需在 front-matter 标注 mode: notes，左侧导航才会常驻。
   notes:
     # 只收录这些分类下的文章（空数组 = 不过滤，即列全站文章）
@@ -171,17 +192,10 @@ theme_config:
     enable: true
     robots: true
 
-  # 站点级补丁：主题未内置的能力在站点层补齐（不改主题 submodule）
-  custom:
-    css:
-      # 文档树：分组默认收起、点击展开（含箭头样式）
-      - xfm-docs-tree.css
-      # 博客形态：侧栏挂件全部展示、去掉内部滚动
-      - xfm-blog.css
-      # 分页：禁用态上一页/下一页占位样式（配合 overrides/pagination.ejs）
-      - xfm-pagination.css
-    js:
-      # {% tabs %} 选项卡点击切换（主题 core.js 未内置）
-      - xfm-tabs.js
-      # 文档树分组展开/收起（主题只处理了笔记侧栏）
-      - xfm-docs-tree.js
+  # 站点级资源注入槽位（custom.css / custom.js）：主题 v1.1.0 已原生支持此前
+  # 规避的全部缺陷（文档树折叠、tabs 切换、分页结构、挂件滚动、笔记收录范围、
+  # 菜单顺序、空白目录栏），对应补丁均已移除。后续若需再打站点补丁，在此追加
+  # 资源名即可（物理文件放 source/css/、source/js/）。
+  # custom:
+  #   css: []
+  #   js: []

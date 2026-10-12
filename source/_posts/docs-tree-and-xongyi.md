@@ -31,6 +31,10 @@ description: 文档侧栏分组改为默认收起、点击展开（对后续新�
 
 两者经 `theme_config.custom.css / custom.js` 引入。
 
+{% note success 2026-10-12 补记 %}
+主题 **v1.1.0** 已原生实现文档树折叠：主题 CSS 提供收起规则与 chevron 箭头，`core.js` 负责点击 / 键盘切换，并用新增的 `docs.expanded` 控制默认展开策略。上述两个补丁文件已删除，站点改为 `docs.expanded: false` + `docs.auto_expand: true`。
+{% endnote %}
+
 {% note success 设计要点：通用规则，后续新增文档自动生效 %}
 默认只展开**当前页所在的那条路径**（主题早已给各级祖先写了 `.is-open`），其余分组一律收起。收起态是**纯 CSS**，因此即使 JS 未加载也**不会闪开**。规则全部基于 `.has-children`，**后续新增任何分组都自动生效**，无需逐页配置。
 {% endnote %}

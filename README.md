@@ -39,9 +39,6 @@ source/
 │       ├── icons|customize|structure/              # 定制与进阶
 │       ├── deploy/                                 # 部署
 │       └── faq|troubleshooting/                    # 帮助
-├── css/xfm-docs-tree.css   # 站点级补丁：文档树分组默认收起 + 箭头样式
-├── js/xfm-tabs.js          # 站点级补丁：{% tabs %} 切换（主题 core.js 未内置）
-├── js/xfm-docs-tree.js     # 站点级补丁：文档树分组点击展开 / 收起
 ├── about/                  # 关于本站
 ├── _posts/                 # 站点动态
 └── ...
@@ -52,9 +49,19 @@ themes/xfm/                 # hexo-theme-xfm 主题（git submodule → 官方�
 
 文档树的分组（`hexo-theme-xfm` / `hexo-theme-xongyi` 及其下的各章节）**默认收起，点击展开**：
 
-- **服务端**已把「当前页所在分支」的各级祖先标记为 `is-open`，因此默认只展开你正在阅读的那条路径，其余一律收起（无 JS 也不会闪开）；
-- `source/css/xfm-docs-tree.css` 负责收起态与箭头样式，`source/js/xfm-docs-tree.js` 负责点击（标签整行或箭头）与键盘切换；
+自主题 **v1.1.0** 起，这一行为由主题原生配置提供，`_config.yml` 里只有两行：
+
+```yaml
+docs:
+  expanded: false      # 默认收起全部分支
+  auto_expand: true    # 只自动展开当前页所在的那条分支
+```
+
+- **收起态由主题 CSS 决定**：`.xfm-nav-item.has-children:not(.is-open) > .xfm-nav-list { display: none }`，无 JS 也不会闪开；
+- **展开 / 收起由主题 `core.js`** 接管（点击 `.xfm-nav-toggle` 或整行标签，支持 Enter / Space，同步 `aria-expanded`）；
 - 规则基于 `.has-children` 通用判断，**后续新增的文档分组自动生效**，无需逐页配置。
+
+> 在这之前（主题 ≤ v1.0.0）这里由站点级 CSS/JS 补丁实现；主题修复后已全部移除，详见 `.workbuddy/memory/site-patches.md`。
 
 
 ## 启用能力
@@ -65,9 +72,11 @@ themes/xfm/                 # hexo-theme-xfm 主题（git submodule → 官方�
 | 编辑此页 | 主题 `docs.edit_link` + `docs.edit_base` | 文档页底部链接到 `edit_base + page.source` |
 | 评论 | 主题 `comments`（`type: waline`） | 服务端 `https://waline.xfm.qzz.io` |
 | 社交邮箱 | 主题 `social.email` | `xfm@xfm.qzz.io` |
-| 文档树折叠 | 主题 `custom.css` / `custom.js` | 分组默认收起、点击展开，当前页分支自动展开 |
+| 文档树折叠 | 主题 `docs.expanded` / `docs.auto_expand` | 默认收起、点击展开，当前页分支自动展开 |
+| 笔记收录范围 | 主题 `notes.note_categories` / `note_tags` | 左侧笔记侧栏只收录「更新日志」分类 |
+| 菜单顺序 | 主题 `menu_order` | 显式声明顺序，绕开 `deepMerge` 追加到末尾的行为 |
 
-> 注：主题 `core.js` 未内置 `{% tabs %}` 的切换逻辑，也未给 docs 侧栏的 `.xfm-nav-toggle` 绑定任何点击处理（箭头还没有样式）。这两处均由**站点层**规避（补丁脚本 + 样式），不改动主题仓库。
+> 上述能力在主题 ≤ v1.0.0 时需靠站点层规避（补丁脚本 + 样式）。主题 **v1.1.0** 已把它们全部做成原生配置，对应补丁已删除；后续若再有需要，可经 `_config.yml` 的 `theme_config.custom.css / custom.js` 注入（资源放 `source/css/`、`source/js/`）。
 >
 > 另：Waline 配置会被原样透传给 `@waline/client`，而 v2 的必填项是**驼峰 `serverURL`**（主题自带的 `server_url` 对 v2 无效），因此站点配置里使用 `waline.serverURL`。
 

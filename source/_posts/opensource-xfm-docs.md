@@ -34,13 +34,15 @@ description: 收录 hexo-theme-xfm 与 hexo-theme-xongyi 两套主题官方技�
 
 文档页统一采用「目录 + index.md」的组织方式，以产出 pretty URL。
 
-## 站点级补丁
+## 定制都在站点层
 
-主题以 submodule 引入，所有定制都通过站点层实现，主题升级不冲突：
+主题以 submodule 引入，所有定制都通过站点层实现，主题升级不冲突。过去这里挂着一批站点级补丁（文档树折叠、选项卡切换、分页结构统一等），主题 **v1.1.0** 把它们全部做成原生配置后已删除，现在只剩几行 `_config.yml`：
 
-- `source/css/xfm-docs-tree.css` + `source/js/xfm-docs-tree.js`：文档树分组折叠
-- `source/js/xfm-tabs.js`：选项卡切换
-- `scripts/pagination-view.js`：统一分页结构
+- `docs.expanded: false` + `docs.auto_expand: true` —— 文档树默认收起、只展开当前分支
+- `notes.note_categories` —— 笔记侧栏只收录「更新日志」分类
+- `menu_order` —— 显式声明导航顺序，绕开 Hexo 合并配置时的键序问题
+
+保留的注入槽位是 `theme_config.custom.css / custom.js`：真有新需求时把资源放进站点 `source/css/`、`source/js/` 再登记即可，不必动主题仓库。
 
 ## 本地构建
 

@@ -29,6 +29,10 @@ description: xfm 文档整体迁入 /docs/xfm/，新增文档中心页；同时�
 
 **站点层修复**（不改主题）：新增 `source/js/xfm-tabs.js`（事件委托切换 + 左右方向键），经 `theme_config.custom.js` 引入。用 jsdom 载入构建产物**模拟真实点击**验证通过。
 
+{% note success 2026-10-12 补记 %}
+主题 **v1.1.0** 在 `core.js` 里补上了原生的选项卡切换（含方向键与无障碍属性），该补丁随之删除，站点已无任何自定义脚本。
+{% endnote %}
+
 ## 三、启用订阅（RSS）
 
 安装 `hexo-generator-feed`（v4）并新增 `feed` 配置（`atom.xml`），同时开启 `vendors.rss_navbar`。结果：导航栏出现 RSS 图标，`<head>` 输出 `<link rel="alternate">`，产出 `/atom.xml`。
