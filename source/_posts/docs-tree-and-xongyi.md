@@ -4,6 +4,7 @@ date: 2026-10-11 22:00:00
 updated: 2026-10-11 22:00:00
 categories: [更新日志]
 tags: [Hexo, 文档, 交互]
+mode: notes
 description: 文档侧栏分组改为默认收起、点击展开（对后续新增文档同样生效），并把 xongyi 文档由 8 篇扁平重写为与 xfm 同构的 21 篇分组文档。
 ---
 

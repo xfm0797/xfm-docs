@@ -4,6 +4,7 @@ date: 2026-10-10 18:00:00
 updated: 2026-10-11 22:00:00
 categories: [更新日志]
 tags: [Hexo, 主题, Git]
+mode: notes
 description: 站点改名为「XFM开源官方文档」，并把内嵌的主题源码改为以 git submodule 直接引用官方仓库。
 ---
 

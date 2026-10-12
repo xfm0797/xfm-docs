@@ -4,6 +4,7 @@ date: 2026-10-11 20:00:00
 updated: 2026-10-11 22:00:00
 categories: [更新日志]
 tags: [Hexo, 文档, 评论, RSS]
+mode: notes
 description: xfm 文档整体迁入 /docs/xfm/，新增文档中心页；同时启用 RSS、编辑此页链接与 Waline 评论，并修复选项卡点击无响应的问题。
 ---
 

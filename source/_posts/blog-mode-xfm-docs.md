@@ -4,6 +4,7 @@ date: 2026-10-11 10:00:00
 updated: 2026-10-11 22:00:00
 categories: [更新日志]
 tags: [Hexo, 主题, 文档]
+mode: notes
 description: 站点默认形态由 docs 改为 blog，文档页靠 front-matter 覆盖仍走三栏形态；同时导入官方 xfm 文档 28 篇替换手写版本。
 ---
 

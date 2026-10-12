@@ -4,6 +4,7 @@ date: 2026-10-10 12:00:00
 updated: 2026-10-11 22:00:00
 categories: [更新日志]
 tags: [Hexo, 部署, 文档]
+mode: notes
 description: 记录本站从初始化、连接远程仓库、配置 docs 模式，到解析并上线两套主题官方文档的完整过程。
 ---
 
