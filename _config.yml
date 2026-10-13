@@ -59,7 +59,7 @@ theme_config:
   # 主题默认形态：blog 博客模式（blog / notes / docs）
   # 说明：文档页通过各自 front-matter 的 `mode: docs`、笔记类文章通过 `mode: notes`
   #       覆盖，仍各自维持自身形态；此处是全站兜底默认。
-  mode: blog
+  mode: docs
 
   appearance:
     scheme: auto
@@ -196,6 +196,9 @@ theme_config:
   # 规避的全部缺陷（文档树折叠、tabs 切换、分页结构、挂件滚动、笔记收录范围、
   # 菜单顺序、空白目录栏），对应补丁均已移除。后续若需再打站点补丁，在此追加
   # 资源名即可（物理文件放 source/css/、source/js/）。
-  # custom:
-  #   css: []
-  #   js: []
+  custom:
+    css:
+      # 移动端/平板档导航栏：菜单按钮被 flex 压缩到 0 宽导致不可见不可点，
+      # 改由品牌区吸收溢出并以省略号截断（主题 .brand/.nav-tools 均 flex: 0 0 auto）
+      - xfm-mobile-nav.css
+    js: []

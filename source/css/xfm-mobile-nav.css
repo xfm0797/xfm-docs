@@ -1,0 +1,47 @@
+/* ============================================================
+   移动端 / 平板档导航栏修复
+   主题 .header-inner 为 flex 布局，.brand 与 .nav-tools 均为
+   flex: 0 0 auto（不可收缩），唯一可收缩项是菜单按钮 .nav-toggle。
+   窄屏内容溢出时，收缩量全部由按钮吸收：宽度从 38px 被压成 0，
+   图标消失、点击落空（elementFromPoint 命中 .header-inner）。
+   修复：菜单按钮禁止收缩；品牌区改为可收缩、标题省略号截断，
+   让溢出量由标题吸收而非按钮。仅作用于 mobile / tablet 档，
+   桌面档（nav-toggle 本就 display:none）不受影响。
+   ============================================================ */
+
+html[data-tier="mobile"] .nav-toggle,
+html[data-tier="tablet"] .nav-toggle {
+  flex: 0 0 auto;
+}
+
+html[data-tier="mobile"] .brand,
+html[data-tier="tablet"] .brand {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+html[data-tier="mobile"] .brand-text,
+html[data-tier="tablet"] .brand-text {
+  min-width: 0;
+  overflow: hidden;
+}
+
+html[data-tier="mobile"] .brand-title,
+html[data-tier="tablet"] .brand-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 手机档再压一压横向留白，把省出的空间还给站点标题 */
+html[data-tier="mobile"] .header-inner {
+  gap: 10px;
+}
+
+html[data-tier="mobile"] .brand {
+  gap: 9px;
+}
+
+html[data-tier="mobile"] .brand-text {
+  flex: 1 1 auto;
+}
