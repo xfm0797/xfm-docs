@@ -59,7 +59,7 @@ theme_config:
   # 主题默认形态：blog 博客模式（blog / notes / docs）
   # 说明：文档页通过各自 front-matter 的 `mode: docs`、笔记类文章通过 `mode: notes`
   #       覆盖，仍各自维持自身形态；此处是全站兜底默认。
-  mode: docs
+  mode: blog
 
   appearance:
     scheme: auto
@@ -192,13 +192,21 @@ theme_config:
     enable: true
     robots: true
 
-  # 站点级资源注入槽位（custom.css / custom.js）：主题 v1.1.0 已原生支持此前
-  # 规避的全部缺陷（文档树折叠、tabs 切换、分页结构、挂件滚动、笔记收录范围、
-  # 菜单顺序、空白目录栏），对应补丁均已移除。后续若需再打站点补丁，在此追加
-  # 资源名即可（物理文件放 source/css/、source/js/）。
+  # 右下角悬浮按钮组（主题 v1.3.0）
+  # 目录按钮默认只在文档模式出现（toc_modes: [docs]）。本站笔记文章同样是
+  # notes 形态、窄屏下左侧笔记导航为 offcanvas，没有这个按钮就打不开笔记树，
+  # 故一并纳入。
+  floating:
+    enable: true
+    toc: true
+    toc_modes: [docs, notes]
+    back_to_top: true
+
+  # 站点级资源注入槽位（custom.css / custom.js）：主题已原生支持此前规避的
+  # 全部缺陷（文档树折叠、tabs 切换、分页结构、挂件滚动、笔记收录范围、
+  # 菜单顺序、空白目录栏、窄屏导航栏菜单按钮被 flex 压缩到 0 宽）。
+  # 对应补丁均已移除；后续若需再打站点补丁，在此追加资源名即可
+  # （物理文件放 source/css/、source/js/）。
   custom:
-    css:
-      # 移动端/平板档导航栏：菜单按钮被 flex 压缩到 0 宽导致不可见不可点，
-      # 改由品牌区吸收溢出并以省略号截断（主题 .brand/.nav-tools 均 flex: 0 0 auto）
-      - xfm-mobile-nav.css
+    css: []
     js: []
