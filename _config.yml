@@ -182,6 +182,26 @@ theme_config:
     email: mailto:xfm@xfm.qzz.io
     rss: /atom.xml
 
+  # 友链（渲染在 source/links/index.md，其 front-matter 需带 type: links）
+  # name 取自各站 <title>，desc 取自 meta description；不填 avatar 时卡片显示链接图标
+  links:
+    - name: XFM 主题源码
+      url: https://github.com/xfm0797/hexo-theme-xfm
+      avatar: /images/avatar.svg
+      desc: 高端大气的 Hexo 三模式主题
+    - name: 墨痕 · 枫铃网
+      url: https://www.lovou.pw
+      desc: 一个基于 Hexo 的极简现代风中文博客
+    - name: 枫铃导航
+      url: https://xfm.qzz.io
+      desc: 你就是最靓的那个星 · 个人网址导航
+    - name: Mige · 我的观影台
+      url: https://mige.qzz.io
+      desc: 视频聚合平台
+    - name: 枫铃网络
+      url: https://host.xongyi.com
+      desc: 专注国际域名注册 · 域名注册与主机服务
+
   # 已安装 hexo-generator-feed，开启导航栏 / 页脚的 RSS 入口
   vendors:
     rss: /atom.xml
