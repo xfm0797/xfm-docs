@@ -14,7 +14,10 @@ language: zh-CN
 timezone: Asia/Shanghai
 
 # ============================== 网址 ==============================
-url: https://xfm0797.github.io/xfm-docs
+# 站点部署在 EdgeOne Pages，绑定自定义域名 doc.lovou.pw（根路径）。
+# 这个 url 是 full_url_for() 的基准：文章底部原创声明链接、canonical、
+# RSS / sitemap 的条目地址全部由它派生，换部署域名时只改这一处。
+url: https://doc.lovou.pw
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
