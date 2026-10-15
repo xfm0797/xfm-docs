@@ -49,6 +49,20 @@ feed:
 per_page: 6
 pagination_dir: page
 
+# 归档页不分页：归档是全站文章的完整时间线索引。
+# 若沿用 per_page，主题的 archive 模板只会拿到「当前页」的文章，
+# 导致顶部「共 N 篇文章」只统计当页、时间线也被截断。
+# 设为 0 时 hexo-pagination 输出单页且 posts 为全量。
+archive_generator:
+  per_page: 0
+
+# 分类页 / 标签页同样不分页：既让顶部篇数等于该分类下的真实总数，
+# 也避免分页模板的数字页码（写死为首页 /page/N/）在分类页上跳错页。
+category_generator:
+  per_page: 0
+tag_generator:
+  per_page: 0
+
 date_format: YYYY-MM-DD
 time_format: HH:mm:ss
 updated_option: mtime
