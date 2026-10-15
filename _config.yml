@@ -242,5 +242,8 @@ theme_config:
   # 对应补丁均已移除；后续若需再打站点补丁，在此追加资源名即可
   # （物理文件放 source/css/、source/js/）。
   custom:
-    css: []
+    # xfm-links.css：友链卡片栅格（桌面三列 / 平板两列 / 手机一列）。
+    # 主题 adaptive-style 的档位规则漏给 .links-grid 加档位前缀，
+    # 全档位被压成 1 列；详见 source/css/xfm-links.css 头部注释。
+    css: [xfm-links.css]
     js: []
