@@ -68,3 +68,11 @@ comments: false
 {% note info 版本对应 %}
 本系列基于 **v1.3.0** 撰写。主题仍在迭代，若某处与你装到的版本不一致，以 [主题仓库](https://github.com/xfm0797/hexo-theme-xfm) 的 CHANGELOG 为准。
 {% endnote %}
+
+## 姐妹系列
+
+{% note tip 另一套主题 %}
+[从零造一个机构官网主题（xongyi）](/series/xongyi/) —— 面向企业 / 政务 / 教育官网，8 篇讲三套预设、首页板块编排、配置产品化与五平台部署。
+
+两套主题的差异对比见 [那一系列的收官篇](/2026/10/15/series-xongyi-08-from-theme-to-product/)。
+{% endnote %}
