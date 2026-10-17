@@ -91,6 +91,10 @@
           path: /docs/xfm/front-matter/
         - title: 运行时 API 与目录结构
           path: /docs/xfm/api-structure/
+        - title: EJS 模板语法与设计
+          path: /docs/xfm/ejs-template/
+        - title: Hexo 主题设计指南
+          path: /docs/xfm/theme-design/
 
     - title: 帮助
       children:

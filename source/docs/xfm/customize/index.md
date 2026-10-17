@@ -66,16 +66,17 @@ custom:
 
 ```yaml
 custom:
-  css: [custom]
+  css: [custom.css]
 ```
 
-无需写 `.css` 后缀，也无需写路径前缀——主题会拼接为 `/css/custom.css`。
+**文件名要带 `.css` 后缀**，无需写路径前缀——主题按 `url_for('/css/' + item)` 拼接，
+写成 `custom`（缺后缀）会得到 `/css/custom`，页面拿不到样式且不报错。
 
 可以登记多个：
 
 ```yaml
 custom:
-  css: [custom, print-override]
+  css: [custom.css, print-override.css]
 ```
 
 ### 第 3 步：重新生成
@@ -276,7 +277,7 @@ custom:
 {% tabs %}
 <!-- tab 自定义 CSS 没生效 -->
 1. 确认文件放在**站点**的 `source/css/`，不是主题的
-2. 确认 `custom.css: [custom]` 已登记（不是字符串，是数组）
+2. 确认 `custom.css: [custom.css]` 已登记（是数组；**文件名要带 `.css` 后缀**）
 3. 执行过 `hexo clean`
 4. 浏览器强制刷新（`Ctrl/Cmd + Shift + R`）或开发者工具里勾选"禁用缓存"
 5. 检查选择器优先级——主题有些规则带 `[data-tier]` 前缀，优先级较高
