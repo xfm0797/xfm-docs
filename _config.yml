@@ -107,6 +107,16 @@ theme_config:
     文档:
       path: /docs/
       icon: file-doc
+      children:
+        主题:
+          icon: folder
+          children:
+            hexo-theme-xfm:
+              path: /docs/xfm/
+              icon: file-doc
+            hexo-theme-xongyi:
+              path: /docs/xongyi/
+              icon: file-doc
     笔记:
       path: /notes/
       icon: book
@@ -118,6 +128,14 @@ theme_config:
         关于:
           path: /about/
           icon: user
+
+  # 多级导航（主题 v1.4.0 起）
+  nav:
+    depth: 3
+    trigger: hover
+    hover_delay: 120
+    submenu_width: 190
+    drawer_accordion: true
 
   # 菜单显示顺序（主题 v1.1.0 起原生支持）
   # 说明：Hexo 用 deepMerge 合并 theme_config，站点新增的菜单键一律被追加到末尾，
@@ -241,12 +259,10 @@ theme_config:
 
   # 站点级资源注入槽位（custom.css / custom.js）：主题已原生支持此前规避的
   # 全部缺陷（文档树折叠、tabs 切换、分页结构、挂件滚动、笔记收录范围、
-  # 菜单顺序、空白目录栏、窄屏导航栏菜单按钮被 flex 压缩到 0 宽）。
+  # 菜单顺序、空白目录栏、窄屏导航栏菜单按钮被 flex 压缩到 0 宽、
+  # 档位规则逗号选择器漏前缀、copyright_text 的 {link} 被转义输出）。
   # 对应补丁均已移除；后续若需再打站点补丁，在此追加资源名即可
   # （物理文件放 source/css/、source/js/）。
   custom:
-    # xfm-links.css：友链卡片栅格（桌面三列 / 平板两列 / 手机一列）。
-    # 主题 adaptive-style 的档位规则漏给 .links-grid 加档位前缀，
-    # 全档位被压成 1 列；详见 source/css/xfm-links.css 头部注释。
-    css: [xfm-links.css]
+    css: []
     js: []
