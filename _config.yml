@@ -117,6 +117,12 @@ theme_config:
             hexo-theme-xongyi:
               path: /docs/xongyi/
               icon: file-doc
+        教程:
+          icon: folder
+          children:
+            TypeScript:
+              path: /docs/ts/
+              icon: file-doc
     笔记:
       path: /notes/
       icon: book

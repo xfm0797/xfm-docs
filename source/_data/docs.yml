@@ -172,3 +172,31 @@
           path: /docs/xongyi/faq/
         - title: 故障排查
           path: /docs/xongyi/troubleshooting/
+
+# --- 三、教程 ----------------------------------------------------------------
+# 与主题文档并列的通用技术教程区，内容为官方文档的中文整理。
+#   教程 -> TypeScript   -> /docs/ts/*
+- title: 教程
+  children:
+    - title: TypeScript
+      children:
+        - title: TypeScript 手册
+          path: /docs/ts/
+        - title: 基础
+          path: /docs/ts/basic-types/
+        - title: 日常类型
+          path: /docs/ts/everyday-types/
+        - title: 类型收窄
+          path: /docs/ts/narrowing/
+        - title: 函数
+          path: /docs/ts/functions/
+        - title: 对象类型
+          path: /docs/ts/object-types/
+        - title: 从类型创建类型
+          path: /docs/ts/types-from-types/
+        - title: 泛型
+          path: /docs/ts/generics/
+        - title: 类
+          path: /docs/ts/classes/
+        - title: 模块
+          path: /docs/ts/modules/

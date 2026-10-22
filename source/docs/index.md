@@ -1,16 +1,16 @@
 ---
 title: 文档中心
 date: 2026-10-11 09:00:00
-updated: 2026-10-11 09:00:00
-description: XFM 开源官方文档中心 —— 收录 hexo-theme-xfm 与 hexo-theme-xongyi 两套 Hexo 主题的完整技术文档。
-keywords: [XFM, Hexo 主题, 文档, hexo-theme-xfm, hexo-theme-xongyi]
+updated: 2026-10-22 23:30:00
+description: XFM 开源官方文档中心 —— 收录 hexo-theme-xfm 与 hexo-theme-xongyi 两套 Hexo 主题的完整技术文档，以及 TypeScript 官方手册中文整理版。
+keywords: [XFM, Hexo 主题, 文档, hexo-theme-xfm, hexo-theme-xongyi, TypeScript]
 order: 0
 mode: docs
 ---
 
 # 文档中心
 
-这里收录 [XFM](https://github.com/xfm0797) 开源的两套 Hexo 主题的官方技术文档。两套主题各自独立成篇，各自拥有独立的目录分区：
+这里收录 [XFM](https://github.com/xfm0797) 开源的两套 Hexo 主题的官方技术文档，以及官方技术文档的中文整理教程。各分区彼此独立：
 
 {% row %}
 {% col %}
@@ -29,6 +29,15 @@ mode: docs
 面向机构官网的通用主题：企业 / 政务 / 教育三套预设，12 个首页板块，配置即可上线。
 
 → [进入 xongyi 主题文档](/docs/xongyi/)
+{% endnote %}
+{% endcol %}
+{% col %}
+{% note tip %}
+**[TypeScript 手册](/docs/ts/)**
+
+TypeScript 官方 Handbook 的中文整理版：从基础类型一路读到泛型、类与模块，示例与原文档保持一致。
+
+→ [进入 TypeScript 教程](/docs/ts/)
 {% endnote %}
 {% endcol %}
 {% endrow %}
@@ -75,9 +84,32 @@ mode: docs
 {% endcol %}
 {% endrow %}
 
+## 三、教程 · TypeScript
+
+官方文档的中文整理，位于 `/docs/ts/`。按官方 Handbook 的推荐顺序编排：
+
+{% row %}
+{% col %}
+- [手册导读](/docs/ts/) —— 为什么需要 TypeScript
+- [基础](/docs/ts/basic-types/) —— 静态类型检查与类型注解
+- [日常类型](/docs/ts/everyday-types/) —— 最常用的类型
+- [类型收窄](/docs/ts/narrowing/) —— 控制流分析
+{% endcol %}
+{% col %}
+- [函数](/docs/ts/functions/) —— 签名、重载、this
+- [对象类型](/docs/ts/object-types/) —— 修饰符与索引签名
+- [从类型创建类型](/docs/ts/types-from-types/) —— 类型操作符
+{% endcol %}
+{% col %}
+- [泛型](/docs/ts/generics/) —— 类型参数与约束
+- [类](/docs/ts/classes/) —— 继承与可见性
+- [模块](/docs/ts/modules/) —— ES Modules
+{% endcol %}
+{% endrow %}
+
 ## 阅读方式
 
-左侧文档树由站点根目录的 `source/_data/docs.yml` 驱动，每个主题一个顶层分组，其下按章节递归展开。文档页支持「上一章 / 下一页」翻页与右侧页内目录，底部提供「编辑此页」入口。
+左侧文档树由站点根目录的 `source/_data/docs.yml` 驱动，每个分区一个顶层分组（主题 / 教程），其下按章节递归展开。文档页支持「上一章 / 下一页」翻页与右侧页内目录，底部提供「编辑此页」入口。
 
 {% fold 站点本身用了哪套主题？ %}
 本站由 **hexo-theme-xfm** 的 `docs` 模式驱动，采用「目录 + `index.md`」的 pretty URL 形式，文档页在 front-matter 中声明 `mode: docs` 以覆盖站点默认的 blog 形态。
