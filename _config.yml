@@ -272,3 +272,13 @@ theme_config:
   custom:
     css: []
     js: []
+
+  # Google AdSense：自动广告模式
+  # 只注入带 client 参数的 adsbygoogle.js，广告位由 Google 自动布置；
+  # slots 留空，主题不会输出任何手动 <ins> 广告位。发布商账号与 lovou.pw 相同。
+  adsense:
+    enable: true
+    client: "ca-pub-5873637283335964"
+    auto_ads: true
+    lazy: true
+    exclude_pages: []
