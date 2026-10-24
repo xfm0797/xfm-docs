@@ -200,3 +200,25 @@
           path: /docs/ts/classes/
         - title: 模块
           path: /docs/ts/modules/
+    - title: Rust
+      children:
+        - title: Rust 手册
+          path: /docs/rust/
+        - title: 通用概念
+          path: /docs/rust/common-concepts/
+        - title: 所有权
+          path: /docs/rust/ownership/
+        - title: 结构体
+          path: /docs/rust/structs/
+        - title: 枚举与模式匹配
+          path: /docs/rust/enums/
+        - title: 模块系统
+          path: /docs/rust/modules/
+        - title: 常用集合
+          path: /docs/rust/collections/
+        - title: 错误处理
+          path: /docs/rust/error-handling/
+        - title: 泛型、Trait 与生命周期
+          path: /docs/rust/generics/
+        - title: 闭包与迭代器
+          path: /docs/rust/closures-iterators/

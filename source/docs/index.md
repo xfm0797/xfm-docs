@@ -1,9 +1,9 @@
 ---
 title: 文档中心
 date: 2026-10-11 09:00:00
-updated: 2026-10-22 23:30:00
-description: XFM 开源官方文档中心 —— 收录 hexo-theme-xfm 与 hexo-theme-xongyi 两套 Hexo 主题的完整技术文档，以及 TypeScript 官方手册中文整理版。
-keywords: [XFM, Hexo 主题, 文档, hexo-theme-xfm, hexo-theme-xongyi, TypeScript]
+updated: 2026-10-24 15:40:00
+description: XFM 开源官方文档中心 —— 收录 hexo-theme-xfm 与 hexo-theme-xongyi 两套 Hexo 主题的完整技术文档，以及 TypeScript、Rust 官方文档中文整理版。
+keywords: [XFM, Hexo 主题, 文档, hexo-theme-xfm, hexo-theme-xongyi, TypeScript, Rust]
 order: 0
 mode: docs
 ---
@@ -38,6 +38,15 @@ mode: docs
 TypeScript 官方 Handbook 的中文整理版：从基础类型一路读到泛型、类与模块，示例与原文档保持一致。
 
 → [进入 TypeScript 教程](/docs/ts/)
+{% endnote %}
+{% endcol %}
+{% col %}
+{% note warning %}
+**[Rust 手册](/docs/rust/)**
+
+Rust 官方教程 The Book 的中文整理版：从所有权与借用读到泛型、trait 与生命周期，示例与编译器报错保持原样。
+
+→ [进入 Rust 教程](/docs/rust/)
 {% endnote %}
 {% endcol %}
 {% endrow %}
@@ -104,6 +113,27 @@ TypeScript 官方 Handbook 的中文整理版：从基础类型一路读到泛�
 - [泛型](/docs/ts/generics/) —— 类型参数与约束
 - [类](/docs/ts/classes/) —— 继承与可见性
 - [模块](/docs/ts/modules/) —— ES Modules
+{% endcol %}
+{% endrow %}
+
+## 四、教程 · Rust
+
+官方教程《The Rust Programming Language》的中文整理，位于 `/docs/rust/`。按学习曲线编排，重点铺平所有权这条最陡的坡：
+
+{% row %}
+{% col %}
+- [手册导读](/docs/rust/) —— Rust 是什么、环境搭建与 Cargo
+- [通用概念](/docs/rust/common-concepts/) —— 变量、类型、函数、控制流
+- [所有权](/docs/rust/ownership/) —— 移动、借用、切片
+- [结构体](/docs/rust/structs/) —— 定义、实例与方法
+- [枚举与模式匹配](/docs/rust/enums/) —— match、Option、穷尽性
+{% endcol %}
+{% col %}
+- [模块系统](/docs/rust/modules/) —— 包、crate 与可见性
+- [常用集合](/docs/rust/collections/) —— Vec、String、HashMap
+- [错误处理](/docs/rust/error-handling/) —— panic!、Result 与 ?
+- [泛型、Trait 与生命周期](/docs/rust/generics/) —— 抽象三支点
+- [闭包与迭代器](/docs/rust/closures-iterators/) —— 惰性求值与零成本抽象
 {% endcol %}
 {% endrow %}
 

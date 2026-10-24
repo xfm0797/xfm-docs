@@ -123,6 +123,9 @@ theme_config:
             TypeScript:
               path: /docs/ts/
               icon: file-doc
+            Rust:
+              path: /docs/rust/
+              icon: file-doc
     笔记:
       path: /notes/
       icon: book
