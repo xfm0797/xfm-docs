@@ -16,6 +16,9 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
+# --- 云同步冲突副本（如「_config的冲突文件 2026-10-25 16：43：38.893473.yml」） ---
+*冲突文件*
+
 # --- 编辑器 ---
 .vscode/
 .idea/
