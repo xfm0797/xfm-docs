@@ -9,11 +9,12 @@
 #   children 子节点数组，支持任意层级递归
 # 兼容别名：name / url / permalink 亦可，items / sections 等价于 children。
 #
-# 结构：三个顶层分组，均三级同构（分区 -> 子专题 -> 章节）
+# 结构：四个顶层分组，均三级同构（分区 -> 子专题 -> 章节）
 #   主题 -> hexo-theme-xfm      -> /docs/xfm/*
 #          hexo-theme-xongyi   -> /docs/xongyi/*
 #   教程 -> TypeScript / Rust   -> /docs/ts/*、/docs/rust/*
 #   项目 -> xfmpress            -> /docs/xfmpress/*
+#   English -> xfmpress Manual  -> /en/docs/xfmpress/*（中文分区的英译版）
 # 文档中心落地页 /docs/ 只作为入口，不列入树（不参与翻页序列）。
 # ==============================================================================
 
@@ -260,3 +261,33 @@
           path: /docs/xfmpress/architecture/
         - title: 版本记录
           path: /docs/xfmpress/changelog/
+
+# --- 四、English --------------------------------------------------------------
+# xfmpress 手册的英文版，与中文版逐章对应（/docs/xfmpress/* <-> /en/docs/xfmpress/*）。
+# 英文正文与界面文案无关：主题的 lang_switcher 只切换界面字符串。
+- title: English
+  children:
+    - title: xfmpress Manual
+      children:
+        - title: Overview
+          path: /en/docs/xfmpress/
+        - title: Install and upgrade
+          path: /en/docs/xfmpress/install/
+        - title: Command line
+          path: /en/docs/xfmpress/cli/
+        - title: Configuration
+          path: /en/docs/xfmpress/config/
+        - title: Content and Markdown
+          path: /en/docs/xfmpress/content/
+        - title: Template syntax
+          path: /en/docs/xfmpress/templates/
+        - title: Theme development
+          path: /en/docs/xfmpress/theme/
+        - title: Plugins
+          path: /en/docs/xfmpress/plugins/
+        - title: Build and deploy
+          path: /en/docs/xfmpress/deploy/
+        - title: Architecture and performance
+          path: /en/docs/xfmpress/architecture/
+        - title: Changelog
+          path: /en/docs/xfmpress/changelog/
