@@ -11,6 +11,8 @@ order: 28
 
 # 插件
 
+**中文** · [English version](/en/docs/xfmpress/plugins/)
+
 **内核不带任何插件。** `npm i -g xfmpress` 只装生成器与两套主题，其余能力全按需安装 —— 和 Hexo 的思路一致：站点里装了什么，就有什么。
 
 ## 加载规则

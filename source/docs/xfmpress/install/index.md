@@ -3,13 +3,15 @@ mode: docs
 
 title: 安装与升级
 date: 2026-11-10 21:35:00
-updated: 2026-11-10 21:35:00
+updated: 2026-11-10 22:30:00
 description: xfmpress 的三种安装方式（全局、npx 免安装、项目内依赖）、环境要求、权限报错与命令找不到的处理、升级与卸载，以及常见安装问题排查。
 keywords: [xfmpress, 安装, npm install, npx, EACCES, Node 版本, 升级, 卸载]
 order: 22
 ---
 
 # 安装与升级
+
+**中文** · [English version](/en/docs/xfmpress/install/)
 
 xfm 是**零运行时依赖**的包：安装时不会拉取任何第三方代码，因此不会出现依赖树冲突，也不会在 `npm audit` 里报一串间接依赖的漏洞。整个安装过程只有一次下载。
 
@@ -41,7 +43,7 @@ nvm install 22 && nvm use 22
 
 ```bash
 npm install -g xfmpress
-xfm --help          # 看到 ⚡ xfm v0.4.6 的横幅即成功
+xfm --help          # 看到 ⚡ xfm v0.4.8 的横幅即成功
 ```
 
 ### 方式 B：免安装试用
@@ -101,7 +103,7 @@ source ~/.zshrc
 ## 验证安装
 
 ```bash
-xfm --version     # 0.4.6
+xfm --version     # 0.4.8
 xfm --help        # 完整命令与选项
 ```
 

@@ -3,13 +3,15 @@ mode: docs
 
 title: 内容与 Markdown
 date: 2026-11-10 21:50:00
-updated: 2026-11-10 21:50:00
-description: xfmpress 的内容组织方式：content 目录与 URL 的对应规则、front-matter 全部字段、草稿与排序、Markdown 扩展语法（提示容器、脚注、引用式链接）、相对链接解析与摘要生成。
-keywords: [xfmpress, Markdown, front-matter, 草稿, URL, 提示容器, 脚注, 相对链接, 摘要]
+updated: 2026-11-10 22:30:00
+description: xfmpress 的内容组织方式：content 目录与 URL 的对应规则、front-matter 全部字段、文章与页面与草稿的区别、scaffolds 脚手架、Markdown 扩展语法、相对链接解析与摘要生成。
+keywords: [xfmpress, Markdown, front-matter, 页面, type: page, scaffolds, 草稿, URL, 提示容器, 脚注, 相对链接]
 order: 25
 ---
 
 # 内容与 Markdown
+
+**中文** · [English version](/en/docs/xfmpress/content/)
 
 内容全部放在 `content/` 下，支持 `.md`、`.markdown`、`.html`、`.htm` 四种扩展名。没有特殊的目录要求 —— 但目录结构决定 URL，所以约定还是值得说清楚。
 
@@ -81,6 +83,50 @@ toc: true
 
 `type: page` 这一项很实用：关于页、友链页这类「不是文章」的内容，标上它就不会出现在首页列表、RSS 和 `prev` / `next` 链条里。
 
+## 文章、页面与草稿
+
+内容只有三种角色，差别全在 front-matter 的两三个字段上：
+
+| 角色 | 建法 | 关键字段 | 表现 |
+| --- | --- | --- | --- |
+| 文章 | `xfm new "标题"` | `layout: post.html` | 进首页列表、RSS / JSON Feed、搜索索引、上下篇与相关推荐 |
+| 页面 | `xfm new page about` | `layout: page.html` + `type: page` | 有独立地址 `/about/`，但不进任何列表与 feed |
+| 草稿 | `xfm new draft "标题"` | `draft: true` | `xfm dev` 照常渲染，`xfm build` 跳过 |
+
+页面与文章共用同一套布局能力，区别只在于**是否参与聚合**：`site.posts` 会排除所有 `type: page` 的页面，`sitemap` / `rss` / `search` / `related` 也一并不收。因此想让页面出现在导航里，得自己把它加进 `site.nav`：
+
+```js
+site: {
+  nav: [
+    { title: '首页', url: '/' },
+    { title: '关于', url: '/about/' },
+  ],
+}
+```
+
+## 脚手架
+
+`xfm new` 生成的初始内容不是写死在代码里的，而是读站点根目录的 `scaffolds/<布局>.md` —— 与 Hexo 的 `scaffolds/` 同构：
+
+```text
+scaffolds/
+├── post.md      # xfm new "标题"  / xfm new post "标题"
+├── page.md      # xfm new page 标题
+└── draft.md     # xfm new draft 标题
+```
+
+模板里可用三个占位符：
+
+| 占位符 | 替换成 |
+| --- | --- |
+| `{% raw %}{{ title }}{% endraw %}` | 标题 |
+| `{% raw %}{{ date }}{% endraw %}` | 当前时间（本地时区） |
+| `{% raw %}{{ layout }}{% endraw %}` | 布局文件名，如 `post.html` |
+
+改完保存即生效，不需要重启 `xfm dev`（`xfm new` 是独立进程，每次都读最新文件）。站点里没有 `scaffolds/` 目录时用内置模板，所以老站点不用迁移；`xfm create` 新建站点时会把三份默认模板写出来，供直接修改。
+
+漏写关键字段不用担心：生成时会补上 `title`、`date`、`layout`、`type: page` 与 `draft` —— 一个只剩标题的模板也能造出行为正确的页面，不会把页面当文章发布、也不会让草稿悄悄上线。
+
 ## 草稿
 
 ```yaml
@@ -92,7 +138,7 @@ draft: true
 
 生产构建（`xfm build`）会跳过草稿，`xfm dev` 则照常渲染 —— 这样本地能预览，线上不会漏出去。想在构建里也包含草稿，把 `buildDrafts` 设为 `true`。
 
-`xfm new --draft` 会自动写入这个字段。
+`xfm new draft "标题"` 会自动写入这个字段（`xfm new "标题" --draft` 等价）。
 
 ## 排序与上下篇
 

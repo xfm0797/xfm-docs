@@ -11,6 +11,8 @@ order: 26
 
 # 模板语法
 
+**中文** · [English version](/en/docs/xfmpress/templates/)
+
 语法与 Nunjucks / Liquid 高度接近，如果你写过 Hexo 主题，大部分写法可以直接迁移。实现方式不同：模板在**构建期一次性编译成 JS 函数**，渲染时只做字符串拼接 —— 没有解释器循环、没有 AST 遍历。
 
 ## 语法总览

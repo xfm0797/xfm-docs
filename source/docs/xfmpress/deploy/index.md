@@ -11,6 +11,8 @@ order: 29
 
 # 构建与部署
 
+**中文** · [English version](/en/docs/xfmpress/deploy/)
+
 `xfm build` 产出的是**纯静态文件**：没有 Node 运行时、没有服务端渲染、没有需要守护的进程。这类产物的好处是托管成本极低 —— CDN、对象存储、GitHub Pages 都能直接接。
 
 ## 产物结构

@@ -11,6 +11,8 @@ order: 27
 
 # 主题开发
 
+**中文** · [English version](/en/docs/xfmpress/theme/)
+
 主题是纯文件，不需要打包、不需要注册。指向一个目录，构建时按约定读布局、拷资源。
 
 ## 目录结构

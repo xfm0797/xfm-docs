@@ -3,15 +3,17 @@ mode: docs
 
 title: 版本记录
 date: 2026-11-10 22:20:00
-updated: 2026-11-10 22:20:00
-description: xfmpress 从 v0.1.0 到 v0.4.6 的十二个版本：每个版本的主线改动、破坏性变更与升级要点，以及值得注意的版本号规则。
-keywords: [xfmpress, 版本记录, CHANGELOG, 更新, 升级, v0.4.6, 破坏性变更]
+updated: 2026-11-10 22:30:00
+description: xfmpress 从 v0.1.0 到 v0.4.8 的十四个版本：每个版本的主线改动、破坏性变更与升级要点，以及值得注意的版本号规则。
+keywords: [xfmpress, 版本记录, CHANGELOG, 更新, 升级, v0.4.8, 破坏性变更]
 order: 31
 ---
 
 # 版本记录
 
-xfmpress 从 2026-11-02 的 v0.1.0 走到 v0.4.6，十一天里发了十二个版本。这份记录按版本整理主线，方便判断该不该升、升级要注意什么。
+**中文** · [English version](/en/docs/xfmpress/changelog/)
+
+xfmpress 从 2026-11-02 的 v0.1.0 走到 v0.4.8，一周多时间发了十四个版本。这份记录按版本整理主线，方便判断该不该升、升级要注意什么。
 
 ## 版本号规则
 
@@ -27,6 +29,8 @@ xfmpress 从 2026-11-02 的 v0.1.0 走到 v0.4.6，十一天里发了十二个�
 
 | 版本 | 日期 | 主线 |
 | --- | --- | --- |
+| 0.4.8 | 11-10 | `xfm new` 支持 post / page / draft 与 scaffolds |
+| 0.4.7 | 11-10 | 官方文档站上线，README 校正 |
 | 0.4.6 | 11-09 | 插件扩到 15 个，dev 服务器修插件产物 |
 | 0.4.5 | 11-09 | 脚手架输出打磨 |
 | 0.4.4 | 11-09 | `create` 不再覆盖 `package.json` |
@@ -39,6 +43,35 @@ xfmpress 从 2026-11-02 的 v0.1.0 走到 v0.4.6，十一天里发了十二个�
 | 0.2.0 | 11-04 | Markdown 语法补齐 |
 | 0.1.1 | 11-03 | 文档与命名修正 |
 | 0.1.0 | 11-02 | 首个版本 |
+
+## v0.4.8
+
+**`xfm new` 变成完整的内容命令**，形状与 `hexo new [layout] <title>` 一致：
+
+| 命令 | 结果 |
+| --- | --- |
+| `xfm new "标题"` / `xfm new post "标题"` | `content/posts/<slug>.md`，文章（行为未变） |
+| `xfm new page about` | `content/about.md`，地址 `/about/` |
+| `xfm new draft "半成品"` | `content/posts/<slug>.md`，带 `draft: true` |
+| `xfm new page about --dir=pages` | 换目录 → `content/pages/about.md` |
+
+页面布局同时写入 `layout: page.html` 与 `type: page`：有独立地址、可以进 `site.nav`，但不进文章列表、RSS / JSON Feed、相关推荐与搜索索引。此前这套字段要手写，漏一个就会让页面变成文章。
+
+**`scaffolds/`** —— `xfm new` 的初始内容改为读站点根目录的 `scaffolds/<layout>.md`，支持 `{% raw %}{{ title }}{% endraw %}` / `{% raw %}{{ date }}{% endraw %}` / `{% raw %}{{ layout }}{% endraw %}` 三个占位符，与 Hexo 同构。`xfm create` 会写出三份默认模板供修改；没有这个目录的站点回落到内置模板。自定义模板漏写的 `title` / `date` / `layout` / `type: page` / `draft` 会自动补齐。
+
+其余变化：
+
+- 输出带上布局与最终地址（`[page] → /about/`），并说明用的是哪个脚手架；首个词像布局但拼错时给出建议；
+- 多词标题整体保留：`xfm new 我的 文章` 建的是「我的 文章」，不再只剩第一个词；单个参数永远是标题（`xfm new page` 是一篇叫 page 的文章，与 Hexo 一致）；
+- 起始正文不再重复写一行 `# 标题` —— 主题已经从 `page.title` 渲染过了。
+
+## v0.4.7
+
+**官方文档站上线**：[doc.lovou.pw/docs/xfmpress](https://doc.lovou.pw/docs/xfmpress/)，十章覆盖安装、命令行、配置、内容、模板、主题、插件、部署与架构。两个 README 加了 `docs` 徽章与文档目录表，CLI / 配置 / 插件 / 主题 / 部署几节各自链到对应章节。
+
+同时修正：README 里的测试数量是旧值（111 → 118），npm 的 `homepage` 与脚手架生成的站点 README 都指向手册，脚手架 README 的插件清单从九个补到十五个。
+
+这一版没有引擎改动，纯文档与元数据。
 
 ## v0.4.6
 
@@ -156,7 +189,7 @@ xfmpress 从 2026-11-02 的 v0.1.0 走到 v0.4.6，十一天里发了十二个�
 | --- | --- |
 | 0.4.2 之前 | 必须先装插件包：`npm i -D xfm-plugin-sitemap xfm-plugin-rss …`，否则构建会失败 |
 | 0.4.0 – 0.4.1 | 直接升；`transformHtml` 插件不再拖慢并行 |
-| 0.4.2 – 0.4.5 | 直接升，无破坏性变更 |
+| 0.4.2 – 0.4.8 | 直接升，无破坏性变更 |
 | 任意版本 | 升级后 `xfm clean && xfm build`，排除旧缓存干扰 |
 
 完整原文见仓库的 [`CHANGELOG.md`](https://github.com/xfm0797/xfm/blob/main/CHANGELOG.md)，每条都按 Keep a Changelog 规范分为 Added / Changed / Fixed / Breaking。

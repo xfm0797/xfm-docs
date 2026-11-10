@@ -11,6 +11,8 @@ order: 24
 
 # 配置
 
+**中文** · [English version](/en/docs/xfmpress/config/)
+
 配置就是一个普通 JavaScript 对象，导出即生效。**所有字段都有默认值**，所以最小可用的配置是空对象 —— 一个空的 `xfm.config.mjs` 也能构建出一个站点。
 
 ## 配置文件查找

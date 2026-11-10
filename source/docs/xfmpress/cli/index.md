@@ -3,13 +3,15 @@ mode: docs
 
 title: 命令行
 date: 2026-11-10 21:40:00
-updated: 2026-11-10 21:40:00
-description: xfmpress 命令行完整参考：create、dev、build、new、clean、info 六个命令的用法与选项，别名对照，以及构建输出的每一行含义。
-keywords: [xfmpress, xfm 命令, CLI, create, dev, build, new, clean, info, 别名]
+updated: 2026-11-10 22:30:00
+description: xfmpress 命令行完整参考：create、dev、build、new、clean、info 六个命令的用法与选项，new 的 post / page / draft 三种布局与 scaffolds 模板，别名对照，以及构建输出的每一行含义。
+keywords: [xfmpress, xfm 命令, CLI, create, dev, build, new, page, draft, scaffolds, clean, info, 别名]
 order: 23
 ---
 
 # 命令行
+
+**中文** · [English version](/en/docs/xfmpress/cli/)
 
 命令结构是 `xfm <命令> [目录] [选项]`。目录参数省略时取当前工作目录 —— 所以在站点根目录里，`xfm build` 就够了。
 
@@ -25,7 +27,7 @@ xfm --version     # 只打印版本号
 | `xfm create [目录]` | 创建站点脚手架 | `--template=blog` 或 `--template=docs`、`--title=` |
 | `xfm dev [目录]` | 开发服务器，SSE 热更新 | `--port=` |
 | `xfm build [目录]` | 生产构建 | `--dev` |
-| `xfm new <标题>` | 新建文章 | `--dir=`、`--slug=`、`--draft`、`--force` |
+| `xfm new [布局] <标题>` | 新建文章 / 页面 / 草稿 | `--layout=`、`--dir=`、`--slug=`、`--draft`、`--force` |
 | `xfm clean [目录]` | 清空产物与增量缓存 | — |
 | `xfm info [目录]` | 打印解析后的配置 | — |
 
@@ -58,6 +60,8 @@ xfm create .                              # 当前目录（非空目录会保留
 | `docs` | 左侧分组侧栏 + 正文 | 产品文档、知识库 |
 
 脚手架不覆盖已有文件，因此往一个半成品目录里重跑是安全的。生成结束后会提示还缺哪些插件、对应的 `npm i` 命令是什么。
+
+除站点骨架外，`xfm create` 还会写好 `scaffolds/` 下的三份内容模板（`post.md` / `page.md` / `draft.md`），`xfm new` 读的就是它们。
 
 ## dev
 
@@ -117,37 +121,74 @@ $ xfm build
 
 ## new
 
+结构与 Hexo 的 `hexo new [layout] <title>` 一致：第一个位置参数是布局时可以省略布局名，写文章时什么都不用加。
+
 ```bash
-xfm new "我的第一篇文章"
-xfm new "Hello, World!"                  # → content/posts/hello-world.md
-xfm new "部署笔记" --slug=deploy-notes    # 手动指定文件名
-xfm new "关于" --dir=pages                # 放到 content/pages/
-xfm new "草稿" --draft                    # 写入 draft: true
-xfm new "同名文章" --force                # 覆盖同名文件
+xfm new "我的第一篇文章"                 # 文章 → content/posts/我的第一篇文章.md
+xfm new post "Hello, World!"            # 显式写布局，效果同上
+xfm new page about                      # 页面 → content/about.md，地址 /about/
+xfm new draft "半成品想法"               # 草稿 → content/posts/半成品想法.md，带 draft: true
+xfm new page about --dir=pages          # 换目录 → content/pages/about.md
+xfm new "部署笔记" --slug=deploy-notes   # 手动指定文件名
+xfm new --layout=page page              # 标题本身就叫 page 时，用 --layout 消歧
+xfm new "同名文章" --force               # 覆盖同名文件
 ```
+
+三种布局的落点与语义：
+
+| 布局 | 落盘位置 | 写入的 front-matter | 语义 |
+| --- | --- | --- | --- |
+| `post`（默认） | `content/posts/<slug>.md` | `layout: post.html` | 文章：进首页列表、RSS、搜索与上下篇 |
+| `page` | `content/<slug>.md` | `layout: page.html`、`type: page` | 固定页：有自己的地址，但不进任何列表 |
+| `draft` | `content/posts/<slug>.md` | `layout: post.html`、`draft: true` | 草稿：`xfm build` 不输出，`xfm dev` 照常预览 |
+
+`page` 这一项是 0.4.8 才成为一等命令的。之前建「关于」「友链」这类页面，得自己把文件放到 `content/` 根目录、并记得手写 `type: page` —— 漏了就会被当成文章塞进列表和 RSS。现在布局一次到位。
 
 几个行为细节：
 
+- **布局只在「第一个词是已知布局且有第二个参数」时生效**：`xfm new page` 是一篇叫「page」的文章（与 Hexo 一致），`xfm new page about` 才是页面。想强制指定就用 `--layout=`。
+- **多词标题整体保留**：`xfm new 我的 文章` 得到「我的 文章」，不会只剩第一个词。
+- **拼错布局会给建议**：`xfm new apge about` 会提示「没有名为 apge 的布局，已按文章标题处理；想建页面用 xfm new page <标题>」。
 - **slug 生成规则**：转小写，非字母数字字符折叠成 `-`，去掉首尾连字符；纯符号标题回落到 `post`。
 - **同名不报错**：自动追加 `-2`、`-3`，想覆盖原文件才用 `--force`。
-- **默认可发布**：新文章不带 `draft`，`xfm build` 立刻能看到；要写半成品显式加 `--draft`。
 - **标题转义**：标题里可能出现 `:` `#` 等 YAML 特殊字符，写进 front-matter 时统一用双引号包裹。
 
-生成的文件长这样：
+生成的文件长这样（起始正文不再重复写 `# 标题` —— 主题已经从 `page.title` 渲染过了）：
 
 ```markdown
 ---
 title: "我的第一篇文章"
-date: 2026-11-10 21:40:00
+date: 2026-11-10 22:30:00
 description: ""
 tags: []
 layout: post.html
 ---
 
-# 我的第一篇文章
-
 开始写作…
 ```
+
+命令的输出会带上布局与最终地址，方便确认落在哪儿：
+
+```console
+$ xfm new page about
+✓ 已创建 content/about.md  [page] → /about/
+  模板：scaffolds/page.md
+  页面不进文章列表、RSS 与相关推荐；想让它出现在导航里，加进 xfm.config.mjs 的 site.nav。
+```
+
+### 用 scaffolds 定制初始内容
+
+`xfm new` 的初始内容来自站点根目录的 `scaffolds/<布局>.md`，与 Hexo 的同名目录同构，支持三个占位符：
+
+| 占位符 | 替换成 |
+| --- | --- |
+| `{% raw %}{{ title }}{% endraw %}` | 标题 |
+| `{% raw %}{{ date }}{% endraw %}` | 当前时间（本地时区） |
+| `{% raw %}{{ layout }}{% endraw %}` | 目标布局文件名，如 `post.html` |
+
+`xfm create` 会写出 `scaffolds/post.md`、`scaffolds/page.md`、`scaffolds/draft.md` 三份默认模板，改完立刻生效，不用重启。没有这个目录的站点回落到内置模板，所以老站点不需要迁移。
+
+自定义脚手架漏掉关键字段时会自动补齐（`title`、`date`、`layout`、`type: page`、`draft`）—— 否则一个只有标题的空模板就能造出「页面当文章发布」「草稿直接上线」这类难查的问题。
 
 ## clean
 

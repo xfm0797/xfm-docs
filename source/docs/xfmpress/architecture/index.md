@@ -3,13 +3,15 @@ mode: docs
 
 title: 架构与性能
 date: 2026-11-10 22:15:00
-updated: 2026-11-10 22:15:00
+updated: 2026-11-10 22:30:00
 description: xfmpress 的内部实现：四个渲染阶段、线性扫描的 Markdown 引擎、构建期编译的模板、worker 池的并发标定与负载均衡、增量缓存的指纹构成，以及基准数据的正确读法。
 keywords: [xfmpress, 架构, 性能, 渲染管线, worker 池, 增量缓存, Markdown 引擎, 基准测试]
 order: 30
 ---
 
 # 架构与性能
+
+**中文** · [English version](/en/docs/xfmpress/architecture/)
 
 这一章讲「为什么快」，以及快的代价落在哪里。如果你只是想用，前九章就够了；想改内核、判断某个性能瓶颈能不能优化，这里有依据。
 
@@ -117,7 +119,7 @@ bench 报的是分阶段耗时，不是单一总分。看的时候注意三点�
 ## 测试
 
 ```bash
-npm test     # 118 项，零依赖
+npm test     # 120 项，零依赖
 ```
 
 测试直接跑真实站点构建，比对产物片段 —— 覆盖 Markdown 边界（嵌套列表、惰性续行、脚注回链）、模板编译（未定义变量、可选链、过滤器错误）、URL 与 base 前缀、增量缓存失效条件、插件加载与钩子顺序。不引测试框架，因此 `node test/run.js` 在任何 Node ≥ 18 环境都能跑。
