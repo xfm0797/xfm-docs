@@ -65,14 +65,14 @@ Rust 官方教程 The Book 的中文整理版：从所有权与借用读到泛�
 {% note quote %}
 **关于「项目」分区**
 
-前三个分区是主题与第三方文档整理；「项目」收录本站作者自研项目的官方文档，随项目版本同步更新，内容基于源码与 CHANGELOG 而非二手资料。
+「主题」与「教程」收录本开源主题与第三方官方文档的整理；「项目」收录本站作者自研项目的官方文档，随项目版本同步更新，内容基于源码与 CHANGELOG 而非二手资料。
 
 目前收录：xfmpress。
 {% endnote %}
 {% endcol %}
 {% endrow %}
 
-## 一、hexo-theme-xfm
+## 一、主题 · hexo-theme-xfm
 
 面向**长期写作**的三模式主题。文档位于 `/docs/xfm/`，按下面的目录组织：
 
@@ -93,7 +93,7 @@ Rust 官方教程 The Book 的中文整理版：从所有权与借用读到泛�
 {% endcol %}
 {% endrow %}
 
-## 二、hexo-theme-xongyi
+## 二、主题 · hexo-theme-xongyi
 
 面向**机构官网**的通用主题。文档位于 `/docs/xongyi/`：
 

@@ -9,171 +9,179 @@
 #   children 子节点数组，支持任意层级递归
 # 兼容别名：name / url / permalink 亦可，items / sections 等价于 children。
 #
-# 结构：按主题分区
-#   hexo-theme-xfm      -> /docs/xfm/*
-#   hexo-theme-xongyi   -> /docs/xongyi/*
+# 结构：三个顶层分组，均三级同构（分区 -> 子专题 -> 章节）
+#   主题 -> hexo-theme-xfm      -> /docs/xfm/*
+#          hexo-theme-xongyi   -> /docs/xongyi/*
+#   教程 -> TypeScript / Rust   -> /docs/ts/*、/docs/rust/*
+#   项目 -> xfmpress            -> /docs/xfmpress/*
 # 文档中心落地页 /docs/ 只作为入口，不列入树（不参与翻页序列）。
 # ==============================================================================
 
-# --- 一、hexo-theme-xfm -------------------------------------------------------
-- title: hexo-theme-xfm
+# --- 一、主题 ----------------------------------------------------------------
+# 两套 Hexo 主题，各自独立成篇（站点自身使用的主题 + 机构官网主题）。
+#   主题 -> hexo-theme-xfm      -> /docs/xfm/*
+#          hexo-theme-xongyi   -> /docs/xongyi/*
+# 文档中心落地页 /docs/ 只作为入口，不列入树（不参与翻页序列）。
+- title: 主题
   children:
-    - title: 文档首页
-      path: /docs/xfm/
-
-    - title: 快速开始
+    - title: hexo-theme-xfm
       children:
-        - title: 主题简介
-          path: /docs/xfm/intro/
-        - title: 安装与部署
-          path: /docs/xfm/install/
-        - title: 5 分钟上手
-          path: /docs/xfm/quick-start/
+        - title: 文档首页
+          path: /docs/xfm/
 
-    - title: 配置参考
+        - title: 快速开始
+          children:
+            - title: 主题简介
+              path: /docs/xfm/intro/
+            - title: 安装与部署
+              path: /docs/xfm/install/
+            - title: 5 分钟上手
+              path: /docs/xfm/quick-start/
+
+        - title: 配置参考
+          children:
+            - title: 配置总览
+              path: /docs/xfm/config/
+            - title: 外观与品牌
+              path: /docs/xfm/config-appearance/
+            - title: 导航与菜单
+              path: /docs/xfm/config-navbar/
+            - title: 首页与文章页
+              path: /docs/xfm/config-index-post/
+            - title: 侧边栏与页脚
+              path: /docs/xfm/config-sidebar-footer/
+
+        - title: 三种模式
+          children:
+            - title: Blog 博客模式
+              path: /docs/xfm/mode-blog/
+            - title: Notes 笔记模式
+              path: /docs/xfm/mode-notes/
+            - title: Docs 文档模式
+              path: /docs/xfm/mode-docs/
+
+        - title: 自适应式响应
+          children:
+            - title: 工作原理
+              path: /docs/xfm/adaptive/
+            - title: 三档配置
+              path: /docs/xfm/adaptive-tiers/
+
+        - title: 标签插件
+          children:
+            - title: 标签插件总览
+              path: /docs/xfm/tags/
+            - title: 提示与折叠
+              path: /docs/xfm/tags-note-fold/
+            - title: 选项卡与时间轴
+              path: /docs/xfm/tags-tabs-timeline/
+            - title: 栅格与行内元素
+              path: /docs/xfm/tags-layout/
+            - title: 图表与链接卡片
+              path: /docs/xfm/tags-mermaid/
+
+        - title: 扩展能力
+          children:
+            - title: 搜索
+              path: /docs/xfm/search/
+            - title: 评论系统
+              path: /docs/xfm/comments/
+            - title: 代码块与第三方增强
+              path: /docs/xfm/vendors/
+            - title: SEO 与站点地图
+              path: /docs/xfm/seo/
+
+        - title: 定制与进阶
+          children:
+            - title: 自定义样式与注入
+              path: /docs/xfm/customize/
+            - title: Front-matter 字段
+              path: /docs/xfm/front-matter/
+            - title: 运行时 API 与目录结构
+              path: /docs/xfm/api-structure/
+            - title: EJS 模板语法与设计
+              path: /docs/xfm/ejs-template/
+            - title: Hexo 主题设计指南
+              path: /docs/xfm/theme-design/
+
+        - title: 帮助
+          children:
+            - title: 常见问题
+              path: /docs/xfm/faq/
+            - title: 故障排查
+              path: /docs/xfm/troubleshooting/
+
+    # --- 二、hexo-theme-xongyi（机构官网主题） -------------------------------------
+    - title: hexo-theme-xongyi
       children:
-        - title: 配置总览
-          path: /docs/xfm/config/
-        - title: 外观与品牌
-          path: /docs/xfm/config-appearance/
-        - title: 导航与菜单
-          path: /docs/xfm/config-navbar/
-        - title: 首页与文章页
-          path: /docs/xfm/config-index-post/
-        - title: 侧边栏与页脚
-          path: /docs/xfm/config-sidebar-footer/
+        - title: 文档首页
+          path: /docs/xongyi/
 
-    - title: 三种模式
-      children:
-        - title: Blog 博客模式
-          path: /docs/xfm/mode-blog/
-        - title: Notes 笔记模式
-          path: /docs/xfm/mode-notes/
-        - title: Docs 文档模式
-          path: /docs/xfm/mode-docs/
+        - title: 快速开始
+          children:
+            - title: 主题简介
+              path: /docs/xongyi/intro/
+            - title: 安装与部署
+              path: /docs/xongyi/install/
+            - title: 5 分钟上手
+              path: /docs/xongyi/quick-start/
 
-    - title: 自适应式响应
-      children:
-        - title: 工作原理
-          path: /docs/xfm/adaptive/
-        - title: 三档配置
-          path: /docs/xfm/adaptive-tiers/
+        - title: 预设布局
+          children:
+            - title: 三套预设
+              path: /docs/xongyi/preset/
+            - title: 预设示例
+              path: /docs/xongyi/preset-examples/
 
-    - title: 标签插件
-      children:
-        - title: 标签插件总览
-          path: /docs/xfm/tags/
-        - title: 提示与折叠
-          path: /docs/xfm/tags-note-fold/
-        - title: 选项卡与时间轴
-          path: /docs/xfm/tags-tabs-timeline/
-        - title: 栅格与行内元素
-          path: /docs/xfm/tags-layout/
-        - title: 图表与链接卡片
-          path: /docs/xfm/tags-mermaid/
+        - title: 首页板块
+          children:
+            - title: 板块总览
+              path: /docs/xongyi/sections/
+            - title: 板块配置详解
+              path: /docs/xongyi/sections-config/
 
-    - title: 扩展能力
-      children:
-        - title: 搜索
-          path: /docs/xfm/search/
-        - title: 评论系统
-          path: /docs/xfm/comments/
-        - title: 代码块与第三方增强
-          path: /docs/xfm/vendors/
-        - title: SEO 与站点地图
-          path: /docs/xfm/seo/
+        - title: 配置参考
+          children:
+            - title: 配置总览
+              path: /docs/xongyi/config/
+            - title: 品牌与导航
+              path: /docs/xongyi/config-brand-nav/
+            - title: 联系与地图
+              path: /docs/xongyi/config-contact/
+            - title: 页脚与备案
+              path: /docs/xongyi/config-footer/
+            - title: 功能与统计
+              path: /docs/xongyi/config-features/
 
-    - title: 定制与进阶
-      children:
-        - title: 自定义样式与注入
-          path: /docs/xfm/customize/
-        - title: Front-matter 字段
-          path: /docs/xfm/front-matter/
-        - title: 运行时 API 与目录结构
-          path: /docs/xfm/api-structure/
-        - title: EJS 模板语法与设计
-          path: /docs/xfm/ejs-template/
-        - title: Hexo 主题设计指南
-          path: /docs/xfm/theme-design/
+        - title: 内容与新闻
+          children:
+            - title: 写新闻与内容
+              path: /docs/xongyi/writing/
+            - title: 页面与 Front-matter
+              path: /docs/xongyi/front-matter/
 
-    - title: 帮助
-      children:
-        - title: 常见问题
-          path: /docs/xfm/faq/
-        - title: 故障排查
-          path: /docs/xfm/troubleshooting/
+        - title: 定制与进阶
+          children:
+            - title: 图标速查
+              path: /docs/xongyi/icons/
+            - title: 自定义样式与模板
+              path: /docs/xongyi/customize/
+            - title: 目录结构与运行时
+              path: /docs/xongyi/structure/
 
-# --- 二、hexo-theme-xongyi（机构官网主题） -------------------------------------
-- title: hexo-theme-xongyi
-  children:
-    - title: 文档首页
-      path: /docs/xongyi/
+        - title: 部署
+          children:
+            - title: 一键部署
+              path: /docs/xongyi/deploy/
 
-    - title: 快速开始
-      children:
-        - title: 主题简介
-          path: /docs/xongyi/intro/
-        - title: 安装与部署
-          path: /docs/xongyi/install/
-        - title: 5 分钟上手
-          path: /docs/xongyi/quick-start/
+        - title: 帮助
+          children:
+            - title: 常见问题
+              path: /docs/xongyi/faq/
+            - title: 故障排查
+              path: /docs/xongyi/troubleshooting/
 
-    - title: 预设布局
-      children:
-        - title: 三套预设
-          path: /docs/xongyi/preset/
-        - title: 预设示例
-          path: /docs/xongyi/preset-examples/
-
-    - title: 首页板块
-      children:
-        - title: 板块总览
-          path: /docs/xongyi/sections/
-        - title: 板块配置详解
-          path: /docs/xongyi/sections-config/
-
-    - title: 配置参考
-      children:
-        - title: 配置总览
-          path: /docs/xongyi/config/
-        - title: 品牌与导航
-          path: /docs/xongyi/config-brand-nav/
-        - title: 联系与地图
-          path: /docs/xongyi/config-contact/
-        - title: 页脚与备案
-          path: /docs/xongyi/config-footer/
-        - title: 功能与统计
-          path: /docs/xongyi/config-features/
-
-    - title: 内容与新闻
-      children:
-        - title: 写新闻与内容
-          path: /docs/xongyi/writing/
-        - title: 页面与 Front-matter
-          path: /docs/xongyi/front-matter/
-
-    - title: 定制与进阶
-      children:
-        - title: 图标速查
-          path: /docs/xongyi/icons/
-        - title: 自定义样式与模板
-          path: /docs/xongyi/customize/
-        - title: 目录结构与运行时
-          path: /docs/xongyi/structure/
-
-    - title: 部署
-      children:
-        - title: 一键部署
-          path: /docs/xongyi/deploy/
-
-    - title: 帮助
-      children:
-        - title: 常见问题
-          path: /docs/xongyi/faq/
-        - title: 故障排查
-          path: /docs/xongyi/troubleshooting/
-
-# --- 三、教程 ----------------------------------------------------------------
+# --- 二、教程 ----------------------------------------------------------------
 # 与主题文档并列的通用技术教程区，内容为官方文档的中文整理。
 #   教程 -> TypeScript   -> /docs/ts/*
 - title: 教程
@@ -223,7 +231,7 @@
         - title: 闭包与迭代器
           path: /docs/rust/closures-iterators/
 
-# --- 四、项目 ----------------------------------------------------------------
+# --- 三、项目 ----------------------------------------------------------------
 # 自研开源项目的官方文档（非第三方整理，随项目版本更新）。
 #   项目 -> xfmpress   -> /docs/xfmpress/*
 - title: 项目
