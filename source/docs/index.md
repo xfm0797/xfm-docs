@@ -1,16 +1,16 @@
 ---
 title: 文档中心
 date: 2026-10-11 09:00:00
-updated: 2026-10-24 15:40:00
-description: XFM 开源官方文档中心 —— 收录 hexo-theme-xfm 与 hexo-theme-xongyi 两套 Hexo 主题的完整技术文档，以及 TypeScript、Rust 官方文档中文整理版。
-keywords: [XFM, Hexo 主题, 文档, hexo-theme-xfm, hexo-theme-xongyi, TypeScript, Rust]
+updated: 2026-11-10 22:25:00
+description: XFM 开源官方文档中心 —— 收录 hexo-theme-xfm 与 hexo-theme-xongyi 两套 Hexo 主题文档、TypeScript 与 Rust 官方文档中文整理版，以及自研项目 xfmpress 的官方手册。
+keywords: [XFM, Hexo 主题, 文档, hexo-theme-xfm, hexo-theme-xongyi, TypeScript, Rust, xfmpress]
 order: 0
 mode: docs
 ---
 
 # 文档中心
 
-这里收录 [XFM](https://github.com/xfm0797) 开源的两套 Hexo 主题的官方技术文档，以及官方技术文档的中文整理教程。各分区彼此独立：
+这里收录 [XFM](https://github.com/xfm0797) 开源项目的技术文档：两套 Hexo 主题、自研静态站点生成器，以及官方技术文档的中文整理教程。各分区彼此独立：
 
 {% row %}
 {% col %}
@@ -47,6 +47,27 @@ TypeScript 官方 Handbook 的中文整理版：从基础类型一路读到泛�
 Rust 官方教程 The Book 的中文整理版：从所有权与借用读到泛型、trait 与生命周期，示例与编译器报错保持原样。
 
 → [进入 Rust 教程](/docs/rust/)
+{% endnote %}
+{% endcol %}
+{% endrow %}
+
+{% row %}
+{% col %}
+{% note danger %}
+**[xfmpress](/docs/xfmpress/)**
+
+自研的零依赖静态站点生成器：多线程渲染、构建期编译模板、Nunjucks 风格语法，15 个可插拔插件。
+
+→ [进入 xfmpress 文档](/docs/xfmpress/)
+{% endnote %}
+{% endcol %}
+{% col %}
+{% note quote %}
+**关于「项目」分区**
+
+前三个分区是主题与第三方文档整理；「项目」收录本站作者自研项目的官方文档，随项目版本同步更新，内容基于源码与 CHANGELOG 而非二手资料。
+
+目前收录：xfmpress。
 {% endnote %}
 {% endcol %}
 {% endrow %}
@@ -137,9 +158,33 @@ Rust 官方教程 The Book 的中文整理版：从所有权与借用读到泛�
 {% endcol %}
 {% endrow %}
 
+## 五、项目 · xfmpress
+
+自研的**静态站点生成器**官方文档，位于 `/docs/xfmpress/`。对应 v0.4.6，从安装一路写到内部架构：
+
+{% row %}
+{% col %}
+- [手册导读](/docs/xfmpress/) —— 定位、性能与三分钟上手
+- [安装与升级](/docs/xfmpress/install/) —— 三种安装方式与排错
+- [命令行](/docs/xfmpress/cli/) —— 六个命令与全部选项
+- [配置](/docs/xfmpress/config/) —— 全字段默认值
+{% endcol %}
+{% col %}
+- [内容与 Markdown](/docs/xfmpress/content/) —— front-matter 与扩展语法
+- [模板语法](/docs/xfmpress/templates/) —— 过滤器、控制结构、继承
+- [主题开发](/docs/xfmpress/theme/) —— 布局清单与最小主题
+- [插件](/docs/xfmpress/plugins/) —— 六个钩子与 15 个官方插件
+{% endcol %}
+{% col %}
+- [构建与部署](/docs/xfmpress/deploy/) —— 增量缓存与子路径
+- [架构与性能](/docs/xfmpress/architecture/) —— 渲染管线与 worker 池
+- [版本记录](/docs/xfmpress/changelog/) —— v0.1.0 → v0.4.6
+{% endcol %}
+{% endrow %}
+
 ## 阅读方式
 
-左侧文档树由站点根目录的 `source/_data/docs.yml` 驱动，每个分区一个顶层分组（主题 / 教程），其下按章节递归展开。文档页支持「上一章 / 下一页」翻页与右侧页内目录，底部提供「编辑此页」入口。
+左侧文档树由站点根目录的 `source/_data/docs.yml` 驱动，每个分区一个顶层分组（主题 / 教程 / 项目），其下按章节递归展开。文档页支持「上一章 / 下一页」翻页与右侧页内目录，底部提供「编辑此页」入口。
 
 {% fold 站点本身用了哪套主题？ %}
 本站由 **hexo-theme-xfm** 的 `docs` 模式驱动，采用「目录 + `index.md`」的 pretty URL 形式，文档页在 front-matter 中声明 `mode: docs` 以覆盖站点默认的 blog 形态。

@@ -126,6 +126,12 @@ theme_config:
             Rust:
               path: /docs/rust/
               icon: file-doc
+        项目:
+          icon: folder
+          children:
+            xfmpress:
+              path: /docs/xfmpress/
+              icon: file-doc
     笔记:
       path: /notes/
       icon: book

@@ -222,3 +222,33 @@
           path: /docs/rust/generics/
         - title: 闭包与迭代器
           path: /docs/rust/closures-iterators/
+
+# --- 四、项目 ----------------------------------------------------------------
+# 自研开源项目的官方文档（非第三方整理，随项目版本更新）。
+#   项目 -> xfmpress   -> /docs/xfmpress/*
+- title: 项目
+  children:
+    - title: xfmpress
+      children:
+        - title: xfmpress 手册
+          path: /docs/xfmpress/
+        - title: 安装与升级
+          path: /docs/xfmpress/install/
+        - title: 命令行
+          path: /docs/xfmpress/cli/
+        - title: 配置
+          path: /docs/xfmpress/config/
+        - title: 内容与 Markdown
+          path: /docs/xfmpress/content/
+        - title: 模板语法
+          path: /docs/xfmpress/templates/
+        - title: 主题开发
+          path: /docs/xfmpress/theme/
+        - title: 插件
+          path: /docs/xfmpress/plugins/
+        - title: 构建与部署
+          path: /docs/xfmpress/deploy/
+        - title: 架构与性能
+          path: /docs/xfmpress/architecture/
+        - title: 版本记录
+          path: /docs/xfmpress/changelog/
