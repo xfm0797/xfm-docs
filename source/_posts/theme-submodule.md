@@ -1,7 +1,7 @@
 ---
 title: 站点更名与主题引用方式调整
 date: 2026-10-10 18:00:00
-updated: 2026-10-11 22:00:00
+updated: 2026-11-11 22:15:00
 categories: [更新日志]
 tags: [Hexo, 主题, Git]
 mode: notes
@@ -59,5 +59,26 @@ git clone --recurse-submodules https://github.com/xfm0797/xfm-docs.git
 git submodule update --remote themes/xfm
 ```
 
-然后提交新的 gitlink 即可。该主题未发布到 npm，因此只能走 submodule / clone 方式。
+然后提交新的 gitlink 即可。当时该主题还没发布到 npm，只能走 submodule / clone 方式；这一点后来变了，见文末。
 {% endnote %}
+
+## 后续变化：submodule 已换成 npm 依赖
+
+2026-11-11 起，本站不再用 submodule 引主题，改成 `package.json` 里锁一个精确版本：
+
+```bash
+npm install hexo-theme-xfm@1.4.1 --save-exact
+```
+
+动因是 submodule 的两处不便：克隆要带 `--recurse-submodules`（忘了就构建报错），构建机还得有该仓库的拉取权限。换成 npm 之后 `npm install` 一步到位。
+
+`_config.yml` 一行都不用改，因为 **Hexo 8 自带回退**：`theme: xfm` 先找 `themes/xfm`，目录不存在时自动用 `node_modules/hexo-theme-xfm`：
+
+```js
+const themeDirFromThemes = join(baseDir, 'themes', theme);
+const themeDirFromNodeModules = join(ctx.plugin_dir, 'hexo-theme-' + theme);
+// themeDirFromThemes 优先，找不到才回退 node_modules
+```
+
+上面这篇记录里的 `git submodule` 命令和「克隆要带子模块」的提示，现在都只作为历史留档。升级主题的方式也从 `submodule update --remote` 变成了「改版本号 + `npm install` + `hexo clean`」。
+

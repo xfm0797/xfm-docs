@@ -4,11 +4,11 @@
 
 | 主题 | 定位 | 源码 |
 | --- | --- | --- |
-| [hexo-theme-xfm](https://github.com/xfm0797/hexo-theme-xfm) | 高端大气的三模式主题（博客 / 笔记 / 文档） | Git submodule → `themes/xfm` |
+| [hexo-theme-xfm](https://github.com/xfm0797/hexo-theme-xfm) | 高端大气的三模式主题（博客 / 笔记 / 文档） | npm 依赖 → `hexo-theme-xfm@1.4.1` |
 | [hexo-theme-xongyi](https://github.com/xfm0797/hexo-theme-xongyi) | 面向机构官网的通用主题（企业 / 政务 / 教育） | 独立仓库 |
 
 > 本站由 **hexo-theme-xfm** 的 `docs` 模式驱动，使用 Hexo 8 构建。
-> 主题通过 **git submodule** 引用官方仓库 `themes/xfm`，仓库内不存放主题源码，构建时按 `.gitmodules` 检出即可。
+> 主题以 **npm 依赖** 引入（`package.json` 里锁精确版本），仓库内不存放主题源码。Hexo 8 会先找 `themes/xfm`，找不到再回退 `node_modules/hexo-theme-xfm`，因此 `theme: xfm` 无需改动。
 
 ## 文档结构
 
@@ -42,8 +42,9 @@ source/
 ├── about/                  # 关于本站
 ├── _posts/                 # 站点动态
 └── ...
-themes/xfm/                 # hexo-theme-xfm 主题（git submodule → 官方仓库）
 ```
+
+> 主题不在仓库里：`npm install` 后位于 `node_modules/hexo-theme-xfm/`，由 Hexo 自动回退加载。
 
 ## 文档侧栏的展开行为
 
@@ -84,8 +85,8 @@ docs:
 ## 本地开发
 
 ```bash
-# 首次克隆需带上主题子模块（或克隆后执行 git submodule update --init --recursive）
-git clone --recurse-submodules https://github.com/xfm0797/xfm-docs.git
+# 主题是 npm 依赖，克隆后 npm install 即可，无需 submodule
+git clone https://github.com/xfm0797/xfm-docs.git
 cd xfm-docs
 
 npm install
@@ -103,6 +104,7 @@ hexo generate        # 产物输出到 public/
 
 - 文档内容由各主题仓库的 `README.md`、`_config.yml` 与 `examples/` 示例配置解析整理而成，与源码保持同步。
 - 主题配置采用站点级覆盖：站点 `_config.yml` 的 `theme_config` 覆盖主题自带同名键，便于主题升级。
+- 主题版本锁在 `package.json` 的 `hexo-theme-xfm` 字段（精确版本、不带 `^`）。升级流程：改版本号 → `npm install` → `hexo clean` → `hexo generate`，不要只替换文件。
 
 ## License
 
