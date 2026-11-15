@@ -3,7 +3,7 @@ mode: docs
 
 title: 命令行
 date: 2026-11-10 21:40:00
-updated: 2026-11-10 22:30:00
+updated: 2026-11-15 22:00:00
 description: xfmpress 命令行完整参考：create、dev、build、new、clean、info 六个命令的用法与选项，new 的 post / page / draft 三种布局与 scaffolds 模板，别名对照，以及构建输出的每一行含义。
 keywords: [xfmpress, xfm 命令, CLI, create, dev, build, new, page, draft, scaffolds, clean, info, 别名]
 order: 23
@@ -61,7 +61,9 @@ xfm create .                              # 当前目录（非空目录会保留
 
 脚手架不覆盖已有文件，因此往一个半成品目录里重跑是安全的。生成结束后会提示还缺哪些插件、对应的 `npm i` 命令是什么。
 
-除站点骨架外，`xfm create` 还会写好 `scaffolds/` 下的三份内容模板（`post.md` / `page.md` / `draft.md`），`xfm new` 读的就是它们。
+「这个目录已经是站点」的判定走 `hasConfig()`，认的形式有六种：`xfm.config.mjs` / `.js` / `.cjs` / `.json`、`config.js`，以及 `package.json` 里的 `"xfm"` 字段。命中时 `create` 会停下并提示，要覆盖才加 `--force` —— 早期版本只认 `.mjs`，用其他形式配置的站点会被当成空目录悄悄覆盖。
+
+除站点骨架外，`xfm create` 还会写好 `scaffolds/` 下的三份内容模板（`post.md` / `page.md` / `draft.md`），以及一份 `.gitignore`（`node_modules/`、`dist/`、`.xfm/` 与系统垃圾文件）—— 仓库自带的 `.gitignore` 不会被改动。`xfm new` 读的就是那三份脚手架。
 
 ## dev
 
@@ -101,6 +103,7 @@ $ xfm build
   ✓ 插件      sitemap, rss, search, seo, related, minify
   ✓ 附加产物  sitemap.xml, robots.txt, feed.xml, search.json, llms.txt, llms-full.txt
   ✓ 静态资源  6 个
+  ✓ 未变化    13 个文件（内容一致，未重写）
   ✓ 输出目录  dist（共 412.18 KB）
   ✓ 并行渲染  4 个 worker 线程
   ✓ 缓存命中  12 页（增量构建）
@@ -116,6 +119,7 @@ $ xfm build
 | 插件 | 实际加载成功的插件名，空则提示按需安装 |
 | 附加产物 | 插件写出的非页面文件，超过 6 个会折叠显示 |
 | 静态资源 | 主题 `assets/` 与站点 `public/` 的拷贝数量 |
+| 未变化 | 内容与旧产物一致、被跳过的文件数；全都要重写时不显示这一行 |
 | 并行渲染 | 出现这行说明页数达到 `workerThreshold` 且插件不阻塞 worker |
 | 缓存命中 | 本次跳过渲染的页面数，只有命中缓存时才有这一行 |
 
@@ -152,6 +156,8 @@ xfm new "同名文章" --force               # 覆盖同名文件
 - **slug 生成规则**：转小写，非字母数字字符折叠成 `-`，去掉首尾连字符；纯符号标题回落到 `post`。
 - **同名不报错**：自动追加 `-2`、`-3`，想覆盖原文件才用 `--force`。
 - **标题转义**：标题里可能出现 `:` `#` 等 YAML 特殊字符，写进 front-matter 时统一用双引号包裹。
+- **必须在站点里执行**：当前目录不是站点时报错退出，打印路径并提示用 `xfm create`，**不创建任何文件**。早期版本会在空目录里建出 `content/posts/<slug>.md`，还提示「可以 build 了」，而构建其实会失败。
+- **`--dir` 会规范化并限制范围**：`--dir=docs\sub` 与 `--dir=docs/sub` 等价，摘要里显示的地址就是真实 URL；用 `..` 跳出内容目录会被拒绝（`--dir 不能跳出内容目录`）。
 
 生成的文件长这样（起始正文不再重复写 `# 标题` —— 主题已经从 `page.title` 渲染过了）：
 
@@ -215,5 +221,6 @@ xfm info
 | 成功 | `0` |
 | 未知命令 / 未知选项 | `1` |
 | 构建或渲染抛错 | `1` |
+| 不在站点目录里执行 `new` / `build` | `1` |
 
 CI 里可以直接用它判断成败：引擎主动抛出的 `[xfm]` 错误（例如声明的插件没装）会打印一行修复指引，而不是一屏调用栈。

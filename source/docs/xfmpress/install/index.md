@@ -3,7 +3,7 @@ mode: docs
 
 title: 安装与升级
 date: 2026-11-10 21:35:00
-updated: 2026-11-10 22:30:00
+updated: 2026-11-15 22:00:00
 description: xfmpress 的三种安装方式（全局、npx 免安装、项目内依赖）、环境要求、权限报错与命令找不到的处理、升级与卸载，以及常见安装问题排查。
 keywords: [xfmpress, 安装, npm install, npx, EACCES, Node 版本, 升级, 卸载]
 order: 22
@@ -43,7 +43,7 @@ nvm install 22 && nvm use 22
 
 ```bash
 npm install -g xfmpress
-xfm --help          # 看到 ⚡ xfm v0.4.8 的横幅即成功
+xfm --help          # 看到 ⚡ xfm v0.4.13 的横幅即成功
 ```
 
 ### 方式 B：免安装试用
@@ -103,7 +103,7 @@ source ~/.zshrc
 ## 验证安装
 
 ```bash
-xfm --version     # 0.4.8
+xfm --version     # 0.4.13
 xfm --help        # 完整命令与选项
 ```
 

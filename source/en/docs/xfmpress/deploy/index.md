@@ -3,7 +3,7 @@ mode: docs
 
 title: Build and deploy
 date: 2026-11-10 22:56:00
-updated: 2026-11-10 22:56:00
+updated: 2026-11-15 22:00:00
 description: xfmpress output structure and incremental caching, sub-path deployment with site.base, configuration for GitHub Pages / Netlify / Vercel / Nginx / object storage, and a pre-flight checklist.
 keywords: [xfmpress, build, incremental cache, deploy, GitHub Pages, Netlify, Nginx, base, CI]
 order: 109
@@ -70,7 +70,7 @@ layout | theme fingerprint | config fingerprint | source text | list summary | r
 
 The last two are the easy misses: early incremental builds served a stale home list after adding a post, and stale recommendations after retagging. Folding them into the hash made both disappear.
 
-Caching only affects **rendering**, not writing: a cache hit still writes its file (taking the HTML from the cache), so `dist/` is always complete.
+Caching only affects **rendering**; writing still happens (a cache hit takes the HTML from the cache and writes it). The write phase compares first, though: a file identical to the existing output is neither rewritten nor re-`mkdir`ed, so `dist/` is always complete and a repeat build only touches what changed.
 
 ```bash
 xfm build          # production build, incremental by default
@@ -97,6 +97,8 @@ The prefix is applied **once, at the render exit**, covering three sources:
 - raw HTML you wrote by hand.
 
 `site.base` also reaches sitemap / feed URLs and the links inside `search.json`. `xfm dev` serves the same prefix — the local URL becomes `http://127.0.0.1:4173/blog/`, so "works locally, 404 in production" surfaces during development.
+
+The dev server itself follows that prefix too: the live-reload stream lives at `/blog/__xfm/events`, links on the 404 page carry it, and a half-closed browser connection no longer aborts a rebuild. When previewing a sub-path site behind a proxy, do not poll `/__xfm/events` without the base.
 
 Internally everything uses bare URLs without the base; disk paths and cache keys ignore it, so changing `base` does not invalidate the cache.
 

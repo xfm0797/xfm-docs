@@ -3,9 +3,9 @@ mode: docs
 
 title: Changelog
 date: 2026-11-10 23:00:00
-updated: 2026-11-10 23:00:00
-description: Every xfmpress release from v0.1.0 to v0.4.8 — the main line of each version, breaking changes, upgrade notes, and the versioning rule that makes it all unusual.
-keywords: [xfmpress, changelog, releases, upgrade, v0.4.8, breaking changes]
+updated: 2026-11-15 22:00:00
+description: Every xfmpress release from v0.1.0 to v0.4.13 — the main line of each version, breaking changes, upgrade notes, and the versioning rule that makes it all unusual.
+keywords: [xfmpress, changelog, releases, upgrade, v0.4.13, breaking changes]
 order: 111
 ---
 
@@ -13,7 +13,7 @@ order: 111
 
 [Chinese version](/docs/xfmpress/changelog/) · **English**
 
-xfmpress went from v0.1.0 on 2026-11-02 to v0.4.8 — fourteen releases in a bit over a week. This page tracks the main line of each one, so you can judge whether to upgrade and what to watch for.
+xfmpress went from v0.1.0 on 2026-11-02 to v0.4.13 — nineteen releases in two weeks. This page tracks the main line of each one, so you can judge whether to upgrade and what to watch for.
 
 ## Versioning rule
 
@@ -29,6 +29,11 @@ There is one difference from the usual convention:
 
 | Version | Date | Main line |
 | --- | --- | --- |
+| 0.4.13 | 11-15 | Repeat builds skip unchanged files: write phase 5.3 s → 0.9 s |
+| 0.4.12 | 11-15 | Indented code blocks inside list items; paragraph leading spaces |
+| 0.4.11 | 11-15 | Loose lists: a blank line no longer splits a list in two |
+| 0.4.10 | 11-15 | Block content in list items, footnote indentation, link definitions |
+| 0.4.9 | 11-15 | Eight CLI and dev-server cases that silently produced wrong results |
 | 0.4.8 | 11-10 | `xfm new` gains post / page / draft and scaffolds |
 | 0.4.7 | 11-10 | The manual goes live; README corrections |
 | 0.4.6 | 11-09 | Plugins grow to fifteen; dev server fixes for plugin output |
@@ -43,6 +48,67 @@ There is one difference from the usual convention:
 | 0.2.0 | 11-04 | Markdown gaps closed |
 | 0.1.1 | 11-03 | Docs and naming fixes |
 | 0.1.0 | 11-02 | First release |
+
+## v0.4.13
+
+**Repeat builds no longer rewrite unchanged files.** On a 1,000-page site the write phase drops from 5.3 s to 0.9 s, with the cold build unchanged. Both wastes were found by counting filesystem calls:
+
+| Waste | Before | After |
+| --- | --- | --- |
+| Stale-output cleanup | Tried `rmdir` on every directory in `dist` on every build — 1,000 failing calls, ~3.3 s sequentially on NTFS | Only runs when something was actually deleted, and only over the ancestors of those files (deepest first, in parallel); no deletions means no `rmdir` at all |
+| Page writes | Flushed every page to disk (~1.5 s) and `mkdir`'d their directories (~1.1 s) even when the bytes were identical | Compares per file (size, then content) and skips a match; a skipped file needs no directory either |
+
+Assets use the same idea with a make-style rule: leave the file alone when the size matches and the destination is not older than the source, so large images are never read. The premise behind the first saving: a directory cannot become empty on its own — only because a file inside it was deleted.
+
+Alongside:
+
+- `xfm build` gains a line reading `未变化 N 个文件（内容一致，未重写）` (unchanged files, content identical, not rewritten);
+- `bench/bench.js` reports cold (`dist` removed) and repeat builds separately instead of mixing them into one median.
+
+## v0.4.12
+
+**Indented (four-space) code blocks now behave the same inside list items as outside**, and the last "only fenced code works here" limitation is gone.
+
+- **`-     code` (five spaces after the marker) used to render as plain text.** The item regex swallowed every space after the marker, losing the extra indentation that makes the first line a code block. Per CommonMark, 1–4 spaces after the marker are padding while 5 or more means one space of padding and the rest belongs to the content — the item now starts with a code block, and following lines indented four past the content column join it.
+- **Leading spaces leaked into paragraphs.** A paragraph line starting with 1–3 spaces kept them (`<p>  code</p>`), which also showed up after a list item's content indent was stripped. Up to three leading spaces count as indentation and are dropped.
+
+Indented code blocks after a blank line inside an item, inside blockquotes, `:::` containers and footnotes already worked; those paths are unchanged.
+
+## v0.4.11
+
+**Loose lists: a blank line no longer ends a list.** All of it lives in `lib/engine/markdown.js`.
+
+- **A blank line between items split one list into two `<ul>`s.** `- a`, blank line, `- b` produced two separate lists, breaking `ol` numbering, nesting and any CSS that styles `li + li`. Items separated by blank lines now stay in one list.
+- **Content after a blank line inside an item fell out of the list.** `- first paragraph`, blank line, indented second paragraph rendered the second paragraph outside the `li` and at the wrong indent. It now belongs to the item and is handled by the block parser — a follow-up paragraph, a sub-list, a fenced code block or a quote all nest correctly.
+
+The rendered shape follows CommonMark's tight/loose rule: if any item is separated from its neighbour by a blank line, or contains one, every paragraph in that list is wrapped in `<p>`. Tight lists are untouched (`<li>a</li>`), and an item with block content keeps the `<p>` it already had. Blank lines after a list still end it, and lazy continuation is still not allowed after a blank line.
+
+One boundary worth knowing: a blank line that belongs to an outer list (`- a` / indented `- b` / blank / `- d`) is handed back to the outer list instead of marking the inner one loose.
+
+## v0.4.10
+
+Three Markdown edge cases that had been sitting on the known-issues list, all in `lib/engine/markdown.js`:
+
+- **Block content inside a list item is rendered as blocks.** `- 安装：` followed by an indented fence used to be flattened into one text run, and an indented `>` was escaped to `&gt;`. Items now collect content at the item's content indent and hand quotes, fenced code, `:::` containers and rules to the block parser, producing `<li><p>安装：</p><div class="code-block">…</div></li>`. `- 标题` plus an indented `---` keeps its Setext meaning instead of turning into a rule.
+- **Footnote block content requires the canonical 4-space indent.** The old rule accepted 2 spaces and dedented up to 4, so a two-space nested list right after a footnote definition was swallowed into the note. Four spaces (or a tab) now mean block content; 1–3 spaces still mean "same paragraph, next line" (so existing prose does not break), and a following unindented paragraph stays a paragraph.
+- **A link reference definition no longer interrupts a paragraph.** `collectDefinitions` used to pull every `[a]: /url` line out of the text, so one mid-paragraph definition split the paragraph in two and removed a line from it. Definitions are now collected only at paragraph start, which is also what CommonMark requires — a mid-paragraph `[a]: /url` stays literal text and does not register a reference.
+
+The default and docs themes also stop list items with block children from gaining extra leading/trailing space from the child's `p` margin. Tests went from 128 to 131.
+
+## v0.4.9
+
+A review pass over the CLI and the dev server. All eight fixes below share one disease: **the tool happily produced the wrong result instead of complaining.**
+
+- **`xfm new` outside a site now errors out.** In an empty directory it used to create `content/posts/<slug>.md` and then suggest "already publishable — just run `xfm build`", while the build itself failed on the missing theme. It now prints the path, points at `xfm create`, and creates nothing.
+- **`xfm create` recognises every config form.** Only `xfm.config.mjs` was checked, so a site configured through `xfm.config.js` / `.cjs` / `.json`, or through an `"xfm"` field in `package.json`, was treated as an empty directory and overwritten (`content/index.md`, `content/about.md`, the starter post) without `--force`. The new `hasConfig()` backs both this check and the dev-server config watcher.
+- **UTF-8 BOM no longer swallows front-matter.** Files saved as "UTF-8 with BOM" — the default of several Windows editors — lost the whole block: the title fell back to the file path and `date` / `layout` / `tags` vanished. The BOM is stripped before looking for `---`.
+- **The layout wins over a contradicting scaffold.** A `scaffolds/draft.md` that still says `draft: false` or `layout: page.html` (usual when copied from another template) produced a *published* page while the CLI reported "won't appear in the build output". `layout`, `type` and `draft` are now forced from the requested layout, and the reverse case — a `post` scaffold with a leftover `draft: true` — is written back to `false`.
+- **`--dir=` with backslashes.** `xfm new page about --dir=docs\sub` echoed `/docs\sub/about/` while the real URL was `/docs/sub/about/`. Paths are normalised before the summary, and `--dir` now refuses to climb out of the content directory.
+- **Date-only front-matter is a local calendar day.** By spec `new Date('2026-11-10')` is UTC midnight, so everything west of UTC rendered those posts one day early. Date-only and `YYYY-MM-DD HH:mm` values are now constructed in local time explicitly; timestamped values keep their time.
+- **Dev server under a sub-path (`site.base: '/blog/'`).** The live-reload event stream follows the base (`/blog/__xfm/events`), 404-page links carry the prefix, a half-closed browser connection can no longer abort a rebuild, and `xfm.config.cjs` / `config.js` are watched like the other config files instead of being silently ignored.
+- **`xfm create` writes a `.gitignore`** (`node_modules/`, `dist/`, `.xfm/`, OS junk) so the first build no longer floods `git status`; an existing `.gitignore` is left untouched.
+
+Tests went from 120 to 128, with new cases aimed at exactly the above: BOM, date parsing, scaffold/layout conflicts, `--dir` normalisation, the non-site guard, config detection, `.gitignore`.
 
 ## v0.4.8
 
@@ -189,7 +255,7 @@ The first release already contained the full core design:
 | --- | --- |
 | Before 0.4.2 | Install the plugin packages first: `npm i -D xfm-plugin-sitemap xfm-plugin-rss …`, otherwise the build fails |
 | 0.4.0 – 0.4.1 | Upgrade directly; `transformHtml` plugins no longer slow parallelism |
-| 0.4.2 – 0.4.8 | Upgrade directly, no breaking changes |
+| 0.4.2 – 0.4.13 | Upgrade directly, no breaking changes |
 | Any version | Run `xfm clean && xfm build` afterwards to rule out stale cache |
 
 The full text lives in the repository's [`CHANGELOG.md`](https://github.com/xfm0797/xfm/blob/main/CHANGELOG.md), each entry following Keep a Changelog with Added / Changed / Fixed / Breaking sections.

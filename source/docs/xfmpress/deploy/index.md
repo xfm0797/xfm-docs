@@ -3,7 +3,7 @@ mode: docs
 
 title: 构建与部署
 date: 2026-11-10 22:10:00
-updated: 2026-11-10 22:10:00
+updated: 2026-11-15 22:00:00
 description: xfmpress 的构建产物与增量缓存机制、site.base 子路径部署、GitHub Pages / Netlify / Vercel / Nginx 的配置方式，以及上线前的检查清单与常见 404 排查。
 keywords: [xfmpress, 构建, 增量缓存, 部署, GitHub Pages, Netlify, Nginx, base, CI]
 order: 29
@@ -97,6 +97,8 @@ export default {
 - 你自己手写的原始 HTML。
 
 `site.base` 还会作用到 sitemap / RSS 的地址与 `search.json` 里的链接。`xfm dev` 同样按前缀访问 —— 本地预览时地址是 `http://127.0.0.1:4173/blog/`，这样「本地正常、线上 404」这类问题在开发阶段就能暴露。
+
+dev 服务器自身也走这个前缀：热更新的事件流在 `/blog/__xfm/events`，404 页里的链接带前缀，浏览器连接半关闭也不会中断重建。容器里预览子路径站点时，别用 `/__xfm/events` 这种不带 base 的地址去看。
 
 内部一律使用不带 base 的「裸 URL」，落盘路径与缓存键都不受 base 影响，所以改 base 不会让缓存整体失效。
 

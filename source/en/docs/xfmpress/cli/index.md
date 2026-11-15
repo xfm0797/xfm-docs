@@ -3,7 +3,7 @@ mode: docs
 
 title: Command line
 date: 2026-11-10 22:44:00
-updated: 2026-11-10 22:44:00
+updated: 2026-11-15 22:00:00
 description: Complete xfmpress CLI reference — create, dev, build, new, clean and info with every option, the post / page / draft layouts and scaffolds, aliases, and how to read each line of build output.
 keywords: [xfmpress, xfm command, CLI, create, dev, build, new, page, draft, scaffolds, clean, info, aliases]
 order: 103
@@ -61,7 +61,9 @@ The two templates:
 
 The scaffold never overwrites existing files, so re-running it inside a half-finished directory is safe. When it finishes it lists the plugins you are still missing and the exact `npm i` command.
 
-Besides the site skeleton, `xfm create` also writes three content templates under `scaffolds/` (`post.md`, `page.md`, `draft.md`) — those are what `xfm new` reads.
+"Is this directory already a site?" is decided by `hasConfig()`, which recognises six forms: `xfm.config.mjs` / `.js` / `.cjs` / `.json`, `config.js`, and an `"xfm"` field in `package.json`. On a match `create` stops and says so; only `--force` overwrites. Earlier versions checked `.mjs` alone, so a site configured any other way was treated as empty and overwritten.
+
+Besides the site skeleton, `xfm create` also writes three content templates under `scaffolds/` (`post.md`, `page.md`, `draft.md`) — those are what `xfm new` reads — plus a `.gitignore` (`node_modules/`, `dist/`, `.xfm/`, OS junk). An existing `.gitignore` is left untouched.
 
 ## dev
 
@@ -101,6 +103,7 @@ $ xfm build
   ✓ Plugins    sitemap, rss, search, seo, related, minify
   ✓ Extra      sitemap.xml, robots.txt, feed.xml, search.json, llms.txt, llms-full.txt
   ✓ Assets     6
+  ✓ Unchanged  13 files (content identical, not rewritten)
   ✓ Output     dist (412.18 KB)
   ✓ Workers    4
   ✓ Cached     12 pages
@@ -116,6 +119,7 @@ Line by line:
 | Plugins | Plugins that actually loaded; when empty you get an install hint |
 | Extra | Non-page files written by plugins, folded after six |
 | Assets | Files copied from the theme's `assets/` and the site's `public/` |
+| Unchanged | Files skipped because the content already matches the old output; the line disappears when everything is rewritten |
 | Workers | Present only when the page count crosses `workerThreshold` and no plugin blocks the pool |
 | Cached | Pages skipped this run; only appears on a cache hit |
 
@@ -152,6 +156,8 @@ Behaviour details:
 - **slug generation**: lowercased, non-alphanumerics collapsed into `-`, leading and trailing dashes trimmed; a title with no usable characters falls back to `post`.
 - **Duplicate names do not fail**: `-2`, `-3` are appended; use `--force` to overwrite.
 - **Titles are escaped**: characters such as `:` and `#` are wrapped in double quotes when written into front-matter.
+- **It must run inside a site**: outside one it errors out, prints the path, points at `xfm create`, and **creates nothing**. Earlier versions wrote `content/posts/<slug>.md` into an empty directory and claimed you could just build — while the build failed.
+- **`--dir` is normalised and bounded**: `--dir=docs\sub` and `--dir=docs/sub` are the same thing, and the address in the summary is the real URL. Climbing out of the content directory with `..` is refused (`--dir 不能跳出内容目录`).
 
 The generated file looks like this (the starter body no longer repeats an `# H1`, since the theme renders it from `page.title`):
 
@@ -215,5 +221,6 @@ Read-only: no build, nothing written. The "Config" line tells you which file was
 | Success | `0` |
 | Unknown command / option | `1` |
 | Build or render error | `1` |
+| `new` / `build` outside a site | `1` |
 
 Usable directly in CI: errors the engine raises itself (a declared plugin that is not installed, say) print a one-line fix instead of a screenful of stack trace.

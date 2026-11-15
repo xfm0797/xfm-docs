@@ -3,7 +3,7 @@ mode: docs
 
 title: xfmpress Manual
 date: 2026-11-10 22:40:00
-updated: 2026-11-10 22:40:00
+updated: 2026-11-15 22:00:00
 description: Official documentation for xfmpress — a zero-dependency Node.js static site generator with multi-threaded rendering, Nunjucks-style templates, pluggable themes and plugins. Positioning, benchmarks and a three-minute start.
 keywords: [xfmpress, xfm, static site generator, SSG, Node.js, zero dependency, Markdown, blog, docs]
 order: 101
@@ -42,22 +42,24 @@ Measured on a 4-core Windows machine, Node 22, 1000 Chinese documents (~5 MB of 
 
 | Metric | Value |
 | --- | --- |
-| Full cold build | **≈4.4–5.5 s** (~180–230 pages/s) |
+| Full cold build (empty `dist`) | **≈5–6.5 s** (~160–200 pages/s) |
+| Repeat build (output mostly unchanged) | **≈2.8–2.9 s** (~340 pages/s) |
 | Render stage with a warm cache | **1 ms** (1001 pages) |
 | Render stage with 4 workers | **≈0.5 s** (1000 pages) |
 | Single-page rebuild in `xfm dev` | **2–7 ms** |
 | Runtime footprint | Static HTML + CSS, zero JavaScript required |
 
-Per-stage numbers for 1000 pages. Note that writing files dominates — that is the filesystem's cost, not the generator's:
+Per-stage numbers for 1000 pages. Writing files is still the largest block, but it is bounded by filesystem metadata rather than by the generator — and a repeat build only writes what actually changed:
 
 | Stage | Time | What makes it fast |
 | --- | --- | --- |
 | Scan and parse | ~690 ms | Parallel directory walk, parallel reads, source text read once |
 | Hashing | ~15 ms | Reuses the text already in memory, no second IO |
 | Render | ~510 ms | Worker pool, context serialized once |
-| Write | ~3800 ms | One `mkdir` per directory, two-phase parallel writes |
+| Write (cold) | ~2600 ms | `mkdir` only for files that need writing, two-phase parallel writes |
+| Write (repeat build) | ~900 ms | Identical files are neither rewritten nor re-`mkdir`ed; no sweep when nothing was deleted |
 
-On Windows / NTFS the write stage is the bottleneck: 1000 small files cost more than parsing and rendering combined. In other words, the next speed-up has to come from producing fewer files, not from a faster generator.
+On Windows / NTFS, 1000 `mkdir` calls cost ~1.1 s and flushing 1000 pages ~1.5 s. The next speed-up has to come from writing less, not from a faster generator — which is exactly what v0.4.13 does: an identical file is neither rewritten nor given a new directory (`stat` plus one read is ~0.8 s, under a third of the cost).
 
 ## Three-minute start
 
@@ -94,7 +96,7 @@ my-blog/
 ## What it can do
 
 - **Content**: YAML front-matter, three layouts for posts / pages / drafts, `scaffolds/` for custom starter content, tag / category / series pages, automatic prev / next, `weight` ordering, relative `.md` links rewritten for you.
-- **Writing**: on top of GFM — `::: tip` callouts, reference links, footnotes, Setext headings, indented code blocks, task lists with lazy continuation.
+- **Writing**: on top of GFM — `::: tip` callouts, reference links, footnotes, Setext headings, indented code blocks (inside and outside list items), loose lists, task lists with lazy continuation.
 - **Themes**: `{% raw %}{% extend %}{% endraw %}` inheritance, `{% raw %}{% block %}{% endraw %}` overrides, `{% raw %}{% include %}{% endraw %}` partials, light/dark driven by CSS variables.
 - **Plugins**: six hooks covering context injection, Markdown, HTML, cross-page computation, extra output and the dev server. Fifteen official plugins, each published on its own.
 - **Search**: the `search` plugin emits `search.json`; the built-in themes ship a Ctrl / ⌘ + K panel that filters client-side with no dependencies.
@@ -114,8 +116,8 @@ my-blog/
 | [Plugins](/en/docs/xfmpress/plugins/) | Hook semantics, auto-loading, 15 official plugins | Extending |
 | [Build and deploy](/en/docs/xfmpress/deploy/) | Incremental cache, sub-paths, Pages / Netlify / Nginx | Shipping |
 | [Architecture](/en/docs/xfmpress/architecture/) | Pipeline, worker pool, cache keys, reading benchmarks | Understanding internals |
-| [Changelog](/en/docs/xfmpress/changelog/) | v0.1.0 → v0.4.8, fourteen releases | Deciding to upgrade |
+| [Changelog](/en/docs/xfmpress/changelog/) | v0.1.0 → v0.4.13, nineteen releases | Deciding to upgrade |
 
 {% note info About the version %}
-This manual documents **xfmpress v0.4.8** (2026-11-10). The versioning rule is unusual: the patch digit rolls from `0.4.0` to `0.4.99` and only then bumps to `0.5.0`. Features therefore land in `0.4.x` releases — read the changelog rather than the version number.
+This manual documents **xfmpress v0.4.13** (2026-11-15). The versioning rule is unusual: the patch digit rolls from `0.4.0` to `0.4.99` and only then bumps to `0.5.0`. Features therefore land in `0.4.x` releases — read the changelog rather than the version number.
 {% endnote %}

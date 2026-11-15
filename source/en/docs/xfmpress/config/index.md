@@ -3,7 +3,7 @@ mode: docs
 
 title: Configuration
 date: 2026-11-10 22:46:00
-updated: 2026-11-10 22:46:00
+updated: 2026-11-15 22:00:00
 description: xfmpress configuration reference — the lookup order for config files, deep-merge rules, and the defaults for site, directories, theme, build behaviour, pagination, indexes, dev server and plugin sections.
 keywords: [xfmpress, configuration, xfm.config.mjs, site config, pagination, indexes, workers, server]
 order: 104
@@ -29,6 +29,8 @@ Tried in order; the first hit wins:
 | 6 | `xfm` field in `package.json` | Used when there is no standalone file |
 
 `xfm info` tells you which one was read.
+
+These six forms matter beyond loading: `xfm create` deciding "this directory is already a site" and `xfm dev` deciding which files to watch both use the same check (`hasConfig()`). A site configured through `.js` / `.cjs` / `.json` is therefore never overwritten as an empty directory, and editing `xfm.config.cjs` triggers a hot reload — both fixed in v0.4.9.
 
 ## Merge rules
 

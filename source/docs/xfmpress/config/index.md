@@ -3,7 +3,7 @@ mode: docs
 
 title: 配置
 date: 2026-11-10 21:45:00
-updated: 2026-11-10 21:45:00
+updated: 2026-11-15 22:00:00
 description: xfmpress 配置参考：配置文件的查找顺序与优先级，site、content、theme、pagination、indexes 以及各插件配置字段的默认值与含义。
 keywords: [xfmpress, 配置, xfm.config.mjs, 站点配置, pagination, indexes, workers, server]
 order: 24
@@ -29,6 +29,8 @@ order: 24
 | 6 | `package.json` 的 `xfm` 字段 | 没有独立配置文件时使用 |
 
 `xfm info` 会直接告诉你最终读的是哪个文件。
+
+这六种形式不只影响加载：`xfm create` 判断「目录已是站点」、`xfm dev` 决定监听哪些文件，用的都是同一套判定（`hasConfig()`）。因此用 `.js` / `.cjs` / `.json` 配置的站点不会被当成空目录覆盖，改 `xfm.config.cjs` 也能触发热重载 —— 这两点都是 v0.4.9 补上的。
 
 ## 合并规则
 

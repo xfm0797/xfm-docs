@@ -3,7 +3,7 @@ mode: docs
 
 title: Content and Markdown
 date: 2026-11-10 22:48:00
-updated: 2026-11-10 22:48:00
+updated: 2026-11-15 22:00:00
 description: How xfmpress organises content — content directory to URL mapping, every front-matter field, posts versus pages versus drafts, scaffolds, Markdown extensions, relative link resolution and excerpt generation.
 keywords: [xfmpress, Markdown, front-matter, page, type page, scaffolds, draft, URL, callouts, footnotes, relative links]
 order: 105
@@ -82,6 +82,11 @@ toc: true
 | `group` / `section` | string | Sidebar group name for the `docs` theme |
 
 `type: page` is the useful one: an "About" or "Links" page marked this way disappears from the home list, the feeds and the `prev` / `next` chain.
+
+Two date details that bite:
+
+- **A date-only value is a local calendar day.** `date: 2026-11-10` means local midnight, so a site west of UTC does not render the post a day early. `2026-11-10 09:00` is built in local time as well; a timestamp with an explicit offset (`2026-11-10T09:00:00Z`) keeps its value.
+- **A UTF-8 BOM does not break parsing.** Several Windows editors save as "UTF-8 with BOM" by default; front-matter is still recognised because the BOM is stripped before the first `---` is looked for — the title does not fall back to the file path.
 
 ## Posts, pages and drafts
 
@@ -185,6 +190,36 @@ Language aliases are normalised, case-insensitively:
 
 An unknown language is not an error — it degrades to escaped monospace text. Meta information on the fence line (highlight ranges such as `{1,3-5}`) is ignored and does not affect the build.
 
+### Indented code blocks
+
+When you would rather not write a fence, four leading spaces or a tab also open a block — **inside and outside list items**:
+
+```markdown
+Under a normal paragraph:
+
+    npm i -g xfmpress
+    xfm create my-blog
+```
+
+Inside a list, indent four columns past the item's content position — that position depends on the marker width (2 for `- `, 3 for `1. `):
+
+```markdown
+- Install:
+
+      npm i -g xfmpress
+```
+
+You can also put 5 spaces after the marker so the item starts with a code block: 1–4 spaces after the marker are padding, and the fifth onwards belongs to the content — that one extra column is what makes the first line a code block:
+
+```markdown
+-     const a = 1;
+      const b = 2;
+```
+
+Both produce a code block inside the `li` (`<li><div class="code-block">…</div></li>`). Indented quotes, `:::` containers and rules after a blank line inside an item work the same way — they all go to the block parser.
+
+Up to three leading spaces on a paragraph line are treated as indentation and dropped, so they never leak into `<p>`.
+
 ### Reference links
 
 ```markdown
@@ -196,6 +231,8 @@ I have been tinkering with [static site generators][ssg] and reordered the [docs
 
 Definition lines never appear in the body. The shorthand `[ssg]` works too — when the link text is the identifier, the second pair of brackets can go.
 
+A definition only counts at the **start of a paragraph**. Dropped into the middle of one, `[ssg]: /x` stays literal text and does not register a reference — that is what CommonMark requires, and it also prevents a sentence from being cut in two. To keep a definition mid-document, give it its own paragraph.
+
 ### Footnotes
 
 ```markdown
@@ -204,13 +241,26 @@ Drop a marker in the text[^note] and the note appears at the end.
 [^note]: Numbered by first reference; repeated references link back.
 ```
 
+Notes can hold block content too — a second paragraph, a sub-list, a code block — and it must be indented by **four spaces** (or a tab):
+
+```markdown
+[^note]: First paragraph of the note.
+
+    Second paragraph, indented four.
+
+    - A sub-item
+```
+
+1–3 spaces do not mean block content; they still mean "next line, same paragraph", so existing prose never breaks. A following paragraph with no indentation stays an ordinary paragraph.
+
 ### Also supported
 
-- **Setext headings**: `====` (level 1) or `----` (level 2) under a paragraph.
-- **Indented code blocks**: four spaces or a tab (outside lists).
+- **Setext headings**: `====` (level 1) or `----` (level 2) under a paragraph. Inside a list item, `- Heading` plus an indented `---` keeps that meaning instead of becoming a rule.
+- **Indented code blocks**: four spaces or a tab, inside or outside lists — see the **Indented code blocks** section above.
+- **Loose lists**: blank lines between items, or inside one, no longer split or end the list; affected paragraphs are wrapped in `<p>` per CommonMark's tight/loose rule, and content indented to the item's content position still belongs to that item. A blank line after a list still ends it.
 - **Escapes**: `\*not italic\*`, `` \`not code` ``.
 - **Task lists**: `- [x] done` / `- [ ] todo`, with continuation lines and nesting.
-- **List continuation**: indented and lazy (unindented) continuations join the same item; ordered lists keep their start number (`3.` emits `start="3"`).
+- **List continuation**: indented and lazy (unindented) continuations join the same item, but lazy continuation is no longer allowed after a blank line; ordered lists keep their start number (`3.` emits `start="3"`).
 - **Tables**: standard GFM tables with alignment markers.
 
 ### Heading anchors
