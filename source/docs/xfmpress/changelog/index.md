@@ -3,9 +3,9 @@ mode: docs
 
 title: 版本记录
 date: 2026-11-10 22:20:00
-updated: 2026-11-15 22:00:00
-description: xfmpress 从 v0.1.0 到 v0.4.13 的十九个版本：每个版本的主线改动、破坏性变更与升级要点，以及值得注意的版本号规则。
-keywords: [xfmpress, 版本记录, CHANGELOG, 更新, 升级, v0.4.13, 破坏性变更]
+updated: 2026-11-21 20:30:00
+description: xfmpress 从 v0.1.0 到 v0.4.14 的二十个版本：每个版本的主线改动、破坏性变更与升级要点，以及值得注意的版本号规则。
+keywords: [xfmpress, 版本记录, CHANGELOG, 更新, 升级, v0.4.14, 破坏性变更]
 order: 31
 ---
 
@@ -13,7 +13,7 @@ order: 31
 
 **中文** · [English version](/en/docs/xfmpress/changelog/)
 
-xfmpress 从 2026-11-02 的 v0.1.0 走到 v0.4.13，两周时间发了十九个版本。这份记录按版本整理主线，方便判断该不该升、升级要注意什么。
+xfmpress 从 2026-11-02 的 v0.1.0 走到 v0.4.14，三周时间发了二十个版本。这份记录按版本整理主线，方便判断该不该升、升级要注意什么。
 
 ## 版本号规则
 
@@ -29,6 +29,7 @@ xfmpress 从 2026-11-02 的 v0.1.0 走到 v0.4.13，两周时间发了十九个�
 
 | 版本 | 日期 | 主线 |
 | --- | --- | --- |
+| 0.4.14 | 11-21 | 全局数据文件、自定义集合、多语言、自动摘要 desc |
 | 0.4.13 | 11-15 | 重复构建跳过未变化文件，写盘 5.3 s → 0.9 s |
 | 0.4.12 | 11-15 | 列表项内的缩进代码块、段落前导空格 |
 | 0.4.11 | 11-15 | 松散列表：空行不再把列表拆成两个 |
@@ -48,6 +49,21 @@ xfmpress 从 2026-11-02 的 v0.1.0 走到 v0.4.13，两周时间发了十九个�
 | 0.2.0 | 11-04 | Markdown 语法补齐 |
 | 0.1.1 | 11-03 | 文档与命名修正 |
 | 0.1.0 | 11-02 | 首个版本 |
+
+## v0.4.14
+
+这一版补齐了把站点撑成「多板块、多语言」的四块基础设施，外加一个清理逻辑的并发修复。
+
+### 新功能
+
+- **全局数据文件（`data/`）** —— `data/` 下的 `.json` / `.yaml` / `.yml` / `.js` / `.mjs`（目录可用 `dataDir` 改）合并进模板与插件的 `site.data`：`data/authors.json` → `site.data.authors`，`data/team/members.yml` → `site.data.team.members`。只保留可 JSON 序列化的值（函数、循环引用丢弃），保证能安全传给 worker；改数据文件会使**全部页面**缓存失效 —— 模板可能在任何页面引用它。`.js` / `.mjs` 走 `import()`，取 `default` 导出。
+- **自定义集合（`collections`）** —— `collections: { projects: { dir, url, layout, perPage, title, posts } }` 把 `content/projects/` 变成独立分区：自己的列表页 `/projects/`、真实的静态分页 `/projects/page/2/`、模板里的 `site.collections.projects`。条目默认**不进**默认文章流、RSS 与 prev / next（`posts: true` 可并入）；两套主题都带了 `collection.html` 布局。
+- **多语言（i18n）** —— `site.languages` 声明启用语言后：页面 front-matter 的 `lang` 驱动该页 `<html lang>`；相同 `translationKey` 的页面互为翻译（`page.translations`），`xfm-plugin-seo` 自动注入 `hreflang` 与 `x-default`、`og:locale:alternate`。单语站什么都不输出，零成本。主题带 `lang-switcher.html` 片段，导航项可写 `translations: { en: { title, url } }` 按当前语言取标签。
+- **自动摘要（`page.desc`）** —— 没写 `description` 的页面自动从渲染后的正文截取摘要（140 字上限，剔除代码块等噪音）；模板里用 `page.desc`（= `description || excerpt`）填列表卡片和 meta 标签，两套主题的列表已接入。
+
+### 修复
+
+- **陈旧产物清理在目录上存在竞态。** `pruneStale` 按深度排序目录却用 `Promise.all` 并行删，父目录可能抢在子目录之前 `rmdir` 而收到 `ENOTEMPTY`（错误被静默吞掉），留下空目录 —— 典型症状：关掉聚合分页后 `/tags/x/page/` 的空壳残留。改为自深向浅**串行**删除；并发场景 30 次复现 5 次 → 修复后 36 次全过。
 
 ## v0.4.13
 
@@ -255,7 +271,7 @@ xfmpress 从 2026-11-02 的 v0.1.0 走到 v0.4.13，两周时间发了十九个�
 | --- | --- |
 | 0.4.2 之前 | 必须先装插件包：`npm i -D xfm-plugin-sitemap xfm-plugin-rss …`，否则构建会失败 |
 | 0.4.0 – 0.4.1 | 直接升；`transformHtml` 插件不再拖慢并行 |
-| 0.4.2 – 0.4.13 | 直接升，无破坏性变更 |
+| 0.4.2 – 0.4.14 | 直接升，无破坏性变更 |
 | 任意版本 | 升级后 `xfm clean && xfm build`，排除旧缓存干扰 |
 
 完整原文见仓库的 [`CHANGELOG.md`](https://github.com/xfm0797/xfm/blob/main/CHANGELOG.md)，每条都按 Keep a Changelog 规范分为 Added / Changed / Fixed / Breaking。

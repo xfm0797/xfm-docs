@@ -3,7 +3,7 @@ mode: docs
 
 title: xfmpress 手册
 date: 2026-11-10 21:30:00
-updated: 2026-11-15 22:00:00
+updated: 2026-11-21 20:30:00
 description: xfmpress 官方文档导读 —— 一个零依赖的 Node.js 静态站点生成器，多线程渲染、Nunjucks 风格模板、即插即用的主题与插件。含定位、性能数据与三分钟上手。
 keywords: [xfmpress, xfm, 静态站点生成器, SSG, Node.js, 零依赖, Markdown, 博客, 文档站]
 order: 21
@@ -96,6 +96,7 @@ my-blog/
 ## 能力一览
 
 - **内容**：YAML front-matter、文章 / 页面 / 草稿三种布局、`scaffolds/` 自定义初始内容、标签 / 分类 / 系列聚合页、自动 prev / next、`weight` 排序、`.md` 相对链接自动重写。
+- **数据与结构**：`data/` 全局数据文件（`site.data`）、自定义集合（独立分区 + 真实静态分页）、多语言（`translationKey` 互链 + hreflang 注入）。
 - **写作**：GFM 常用语法之外，还有 `::: tip` 这类提示容器、引用式链接、脚注、Setext 标题、缩进代码块（列表内外都可）、松散列表与任务列表续行。
 - **主题**：`{% raw %}{% extend %}{% endraw %}` 继承 + `{% raw %}{% block %}{% endraw %}` 覆写 + `{% raw %}{% include %}{% endraw %}` 片段，CSS 变量驱动深浅色。
 - **插件**：六个钩子覆盖「注入上下文 / 改 Markdown / 改 HTML / 跨页计算 / 追加产物 / 扩展 dev 服务器」，官方 15 个插件各自独立发布。
@@ -116,8 +117,8 @@ my-blog/
 | [插件](/docs/xfmpress/plugins/) | 钩子语义、自动加载、15 个官方插件、自己写插件 | 扩能力 |
 | [构建与部署](/docs/xfmpress/deploy/) | 增量缓存、子路径、GitHub Pages / Netlify / Nginx | 上线 |
 | [架构与性能](/docs/xfmpress/architecture/) | 渲染管线、worker 池、缓存指纹、bench 读法 | 想搞懂原理 |
-| [版本记录](/docs/xfmpress/changelog/) | v0.1.0 → v0.4.13 十九个版本的主线 | 评估升级 |
+| [版本记录](/docs/xfmpress/changelog/) | v0.1.0 → v0.4.14 二十个版本的主线 | 评估升级 |
 
 {% note info 关于版本 %}
-本文档对应 **xfmpress v0.4.13**（2026-11-15）。版本号规则是补丁位从 `0.4.0` 滚到 `0.4.99` 再升 `0.5.0`，循环往复 —— 因此 `0.4.x` 里会出现新增功能，不必等到 minor。
+本文档对应 **xfmpress v0.4.14**（2026-11-21）。版本号规则是补丁位从 `0.4.0` 滚到 `0.4.99` 再升 `0.5.0`，循环往复 —— 因此 `0.4.x` 里会出现新增功能，不必等到 minor。
 {% endnote %}

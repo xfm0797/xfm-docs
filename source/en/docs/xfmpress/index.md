@@ -3,7 +3,7 @@ mode: docs
 
 title: xfmpress Manual
 date: 2026-11-10 22:40:00
-updated: 2026-11-15 22:00:00
+updated: 2026-11-21 20:30:00
 description: Official documentation for xfmpress — a zero-dependency Node.js static site generator with multi-threaded rendering, Nunjucks-style templates, pluggable themes and plugins. Positioning, benchmarks and a three-minute start.
 keywords: [xfmpress, xfm, static site generator, SSG, Node.js, zero dependency, Markdown, blog, docs]
 order: 101
@@ -96,6 +96,7 @@ my-blog/
 ## What it can do
 
 - **Content**: YAML front-matter, three layouts for posts / pages / drafts, `scaffolds/` for custom starter content, tag / category / series pages, automatic prev / next, `weight` ordering, relative `.md` links rewritten for you.
+- **Data and structure**: global data files under `data/` (`site.data`), custom collections (independent sections with real static pagination), multi-language (`translationKey` pairing + injected hreflang).
 - **Writing**: on top of GFM — `::: tip` callouts, reference links, footnotes, Setext headings, indented code blocks (inside and outside list items), loose lists, task lists with lazy continuation.
 - **Themes**: `{% raw %}{% extend %}{% endraw %}` inheritance, `{% raw %}{% block %}{% endraw %}` overrides, `{% raw %}{% include %}{% endraw %}` partials, light/dark driven by CSS variables.
 - **Plugins**: six hooks covering context injection, Markdown, HTML, cross-page computation, extra output and the dev server. Fifteen official plugins, each published on its own.
@@ -116,8 +117,8 @@ my-blog/
 | [Plugins](/en/docs/xfmpress/plugins/) | Hook semantics, auto-loading, 15 official plugins | Extending |
 | [Build and deploy](/en/docs/xfmpress/deploy/) | Incremental cache, sub-paths, Pages / Netlify / Nginx | Shipping |
 | [Architecture](/en/docs/xfmpress/architecture/) | Pipeline, worker pool, cache keys, reading benchmarks | Understanding internals |
-| [Changelog](/en/docs/xfmpress/changelog/) | v0.1.0 → v0.4.13, nineteen releases | Deciding to upgrade |
+| [Changelog](/en/docs/xfmpress/changelog/) | v0.1.0 → v0.4.14, twenty releases | Deciding to upgrade |
 
 {% note info About the version %}
-This manual documents **xfmpress v0.4.13** (2026-11-15). The versioning rule is unusual: the patch digit rolls from `0.4.0` to `0.4.99` and only then bumps to `0.5.0`. Features therefore land in `0.4.x` releases — read the changelog rather than the version number.
+This manual documents **xfmpress v0.4.14** (2026-11-21). The versioning rule is unusual: the patch digit rolls from `0.4.0` to `0.4.99` and only then bumps to `0.5.0`. Features therefore land in `0.4.x` releases — read the changelog rather than the version number.
 {% endnote %}

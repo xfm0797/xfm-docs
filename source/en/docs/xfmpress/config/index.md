@@ -3,7 +3,7 @@ mode: docs
 
 title: Configuration
 date: 2026-11-10 22:46:00
-updated: 2026-11-15 22:00:00
+updated: 2026-11-21 20:30:00
 description: xfmpress configuration reference — the lookup order for config files, deep-merge rules, and the defaults for site, directories, theme, build behaviour, pagination, indexes, dev server and plugin sections.
 keywords: [xfmpress, configuration, xfm.config.mjs, site config, pagination, indexes, workers, server]
 order: 104
@@ -71,7 +71,8 @@ export default {
 | `author` | `''` | Author name, used by themes and plugins |
 | `base` | `'/'` | Sub-path deployment, e.g. `'/xfm/'` on a Pages project site |
 | `assets` | `'/assets/'` | URL prefix for theme assets |
-| `nav` | `[]` | Nav items, each `{ title, url }` |
+| `nav` | `[]` | Nav items, each `{ title, url }`; multi-language sites may add `translations` for per-language labels |
+| `languages` | none | For multi-language sites, the enabled language list, e.g. `['zh-CN', 'en']`; omit it and the site is single-language |
 
 Keys you add under `site` reach the template context untouched — `site.copyright` is available in templates as-is.
 
@@ -114,6 +115,67 @@ pagination: { enabled: true, perPage: 9, url: '/page/' },
 | `url` | `'/page/'` | Prefix for page 2 onward, producing `/page/2/`, `/page/3/` |
 
 Pagination produces **real static pages**, not client-side paging — each has its own HTML, canonical and title, which is what search engines want. Templates simply loop over `pagination.posts` without knowing which page they are on.
+
+## Global data files
+
+```js
+dataDir: 'data', // default
+```
+
+`.json` / `.yaml` / `.yml` / `.js` / `.mjs` files under `data/` load on every build and merge into `site.data`, visible to templates and plugins:
+
+```text
+data/authors.json      → site.data.authors
+data/team/members.yml  → site.data.team.members   # subdirectory = nested object
+```
+
+Three rules worth remembering:
+
+- **Plain data only**: every value goes through one JSON serialise/parse round-trip — functions and cycles are dropped, which is what makes the payload safe for workers;
+- **`.js` / `.mjs` load via `import()`** and use the module's `default` export (or the module itself when there is none); the path carries a timestamp so the file re-executes on every build;
+- **Changing any data file invalidates every page's cache** — a template may reference `site.data` on any page, so there is no way to narrow the blast radius.
+
+A single file that fails to load (bad JSON, for example) is skipped; the build continues.
+
+## Custom collections
+
+```js
+collections: {
+  projects: { dir: 'projects', perPage: 9, layout: 'collection.html' },
+},
+```
+
+Groups everything under `content/<dir>/` into an independent section, separate from the default post stream:
+
+| Field | Default | Meaning |
+| --- | --- | --- |
+| `dir` | the collection name | Subdirectory relative to `contentDir` |
+| `url` | `/<name>/` | List-page address, producing real static pagination at `/<name>/page/2/` |
+| `layout` | `collection.html` | List-page layout; both built-in themes provide one |
+| `perPage` | inherits `pagination.perPage` | Items per page; `0` disables pagination |
+| `title` / `description` | the collection name | List-page title and description |
+| `posts` | `false` | `true` also puts the items into the default post stream `site.posts` |
+
+Collection items stay out of the default post stream, RSS / JSON Feed and the prev / next chain (the feed plugins filter on `data.rss: false`, which respects an explicit `rss` in front-matter). Templates read `site.collections.<name>` as `{ name, url, count, items }`. `content/<dir>/index.md` is left for a hand-written list page — if it collides with the generated page, the user's page wins. Ordering matches the home stream: `weight` → date descending → URL.
+
+## Multi-language
+
+```js
+site: { lang: 'zh-CN', languages: ['zh-CN', 'en'] },
+```
+
+- **Without `languages`** (or with a single entry): a single-language site — `<html lang>` uses `site.lang` and every translation-related step is skipped, at zero cost;
+- **With several entries**: a page's `lang` front-matter drives its `<html lang>` and the SEO plugin's `og:locale`; pages sharing a `translationKey` become each other's translations — `page.translations` is `[{ lang, url, title }]`, and `xfm-plugin-seo` injects `hreflang` plus `x-default` (taken from the default-language version) and `og:locale:alternate`.
+
+Nav items can carry `translations`, resolved against the current page's language:
+
+```js
+nav: [
+  { title: '关于', url: '/about/', translations: { en: { title: 'About', url: '/en/about/' } } },
+],
+```
+
+Both built-in themes ship a `lang-switcher.html` partial for hooking a language switcher into a layout.
 
 ## Index pages
 

@@ -3,7 +3,7 @@ mode: docs
 
 title: Content and Markdown
 date: 2026-11-10 22:48:00
-updated: 2026-11-15 22:00:00
+updated: 2026-11-21 20:30:00
 description: How xfmpress organises content — content directory to URL mapping, every front-matter field, posts versus pages versus drafts, scaffolds, Markdown extensions, relative link resolution and excerpt generation.
 keywords: [xfmpress, Markdown, front-matter, page, type page, scaffolds, draft, URL, callouts, footnotes, relative links]
 order: 105
@@ -80,6 +80,9 @@ toc: true
 | `type` | string | `page` keeps it out of lists, feeds and prev/next |
 | `url` / `permalink` / `slug` | string | Set the address by hand |
 | `group` / `section` | string | Sidebar group name for the `docs` theme |
+| `lang` | string | The page's language (e.g. `en`); on multi-language sites drives `<html lang>` and `og:locale` |
+| `translationKey` | string | Pages sharing the key become each other's translations (multi-language sites only), feeding `page.translations` |
+| `rss` | bool | Set to `false` to keep a single page out of RSS / JSON Feed |
 
 `type: page` is the useful one: an "About" or "Links" page marked this way disappears from the home list, the feeds and the `prev` / `next` chain.
 

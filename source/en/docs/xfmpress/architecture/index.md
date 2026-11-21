@@ -3,7 +3,7 @@ mode: docs
 
 title: Architecture and performance
 date: 2026-11-10 22:58:00
-updated: 2026-11-15 22:00:00
+updated: 2026-11-21 20:30:00
 description: How xfmpress works inside — the four build stages, a linear Markdown engine, templates compiled at build time, worker-pool calibration and load balancing, the incremental cache key, and how to read the benchmarks.
 keywords: [xfmpress, architecture, performance, pipeline, worker pool, incremental cache, Markdown engine, benchmarks]
 order: 110
@@ -99,7 +99,7 @@ The key hashes six concatenated parts:
 layout | theme fingerprint | config fingerprint | source text | list summary | related posts
 ```
 
-The theme fingerprint hashes every file under `layouts/` and `partials/`; the config fingerprint covers only render-affecting fields (`theme`, `site`, `defaults`, `markdown`).
+The theme fingerprint hashes every file under `layouts/` and `partials/`; the config fingerprint covers only render-affecting fields (`theme`, `site`, `defaults`, `markdown`, `collections`) plus two wholesale inputs: the **merged value of the `data/` files** (changing any data file invalidates every page's cache — templates may reference `site.data` anywhere) and the plugin fingerprint.
 
 The last two parts were bug fixes: a home page whose body never changes still changes when posts are added, so list-like pages mix in a summary of the post list (url + title + date + excerpt); related posts are cross-page data written by plugins in `afterCollect`, and without them, retagging one post would leave stale recommendations elsewhere.
 
@@ -109,7 +109,7 @@ Caching skips rendering; writing still happens — a hit takes the HTML from the
 
 Before v0.4.13 a repeat build wrote as slowly as a cold one, because it did two unnecessary things. Both rest on one easily missed fact: **an empty directory cannot exist inside `dist/`**.
 
-- **Where empty directories come from**: a directory only becomes empty because a file inside it was deleted. So stale-output cleanup (`pruneStale`) does not need to try `rmdir` on everything each time — it runs only when this build actually deleted a file, and only over the ancestors of those files (deepest first, in parallel). It used to be 1,000 failing `rmdir` calls, about 3 s on NTFS.
+- **Where empty directories come from**: a directory only becomes empty because a file inside it was deleted. So stale-output cleanup (`pruneStale`) does not need to try `rmdir` on everything each time — it runs only when this build actually deleted a file, and only over the ancestors of those files (deepest first, **sequentially**). It used to be 1,000 failing `rmdir` calls, about 3 s on NTFS. Sequential is not a style choice: directory removal once ran under `Promise.all`, so a parent could be removed before its children and fail with `ENOTEMPTY` (the error is swallowed), leaving empty directories behind — fixed in v0.4.14; the race reproduced 5 times in 30 concurrent runs, and 0 times in 36 after the fix.
 - **Identical files need no rewrite**: every build used to flush all pages (~1.5 s) and `mkdir` their directories (~1.1 s) regardless of whether the bytes changed. Output is now compared per file (size, then content) and skipped on a match; a skipped file needs no directory either. Assets use a different rule — leave it alone when the size matches and the destination is not older than the source — so large images are never read.
 
 The comparison is not free: `stat` plus one read is ~0.8 s, still under a third of the rewrite cost, so the trade is clearly worth it.
@@ -130,7 +130,7 @@ The output is per-stage, not a single score. Four things to keep in mind:
 ## Tests
 
 ```bash
-npm test     # 138 cases, zero dependencies
+npm test     # 164 cases, zero dependencies
 ```
 
 Tests run real site builds and compare output fragments — covering Markdown edges (nested and loose lists, lazy continuation, block content inside list items, footnote back-links and indentation, link-definition placement), template compilation (undefined variables, optional chains, filter errors), URLs and base prefixes, cache invalidation conditions, repeat builds skipping writes, stale-output and empty-directory cleanup after deletions, CLI guards (non-site, BOM, scaffold conflicts, `--dir` escapes), plugin loading and hook order. No test framework is involved, so `node test/run.js` runs on any Node ≥ 18.

@@ -3,7 +3,7 @@ mode: docs
 
 title: Template syntax
 date: 2026-11-10 22:50:00
-updated: 2026-11-10 22:50:00
+updated: 2026-11-21 20:30:00
 description: Complete xfmpress template reference — output and escaping, the six filters, if/for/set control flow, include and extend/block inheritance, expression rules, and the site/page/content/headings context.
 keywords: [xfmpress, template, template syntax, Nunjucks, extend, block, include, filters, context]
 order: 106
@@ -205,6 +205,9 @@ What `site` exposes:
 | `site.categories` | Category array, same shape |
 | `site.series` | Series array, same shape |
 | `site.navGroups` | Sidebar groups, each `{ title, items: [{ title, url }] }` |
+| `site.data` | Object merged from the `data/` files (`data/authors.json` → `site.data.authors`) |
+| `site.collections` | Custom collections, each `{ name, url, count, items }` |
+| `site.languages` / `site.defaultLang` | Enabled languages and the default; a single-language site gets `[site.lang]` |
 
 What `page` exposes:
 
@@ -216,6 +219,9 @@ What `page` exposes:
 | `page.weight` / `page.layout` | Sort weight and layout name |
 | `page.data` | Raw front-matter, including injected `prev` / `next` / `related` |
 | `page.excerpt` / `page.readTime` | Summary and reading time in minutes |
+| `page.desc` | The summary for list cards and meta: `description || excerpt` (auto-truncated when no description) |
+| `page.translations` | Other language versions sharing the `translationKey`, `[{ lang, url, title }]`; always `[]` on single-language sites |
+| `page.lang` / `page.collection` | The page's language marker; the collection name it belongs to, empty otherwise |
 | `page.toc` | Headings of this page |
 
 `page.data` is the most useful layer: cross-page data written by plugins hangs off it (`related` recommendations, `prev` / `next`), ready to loop over.

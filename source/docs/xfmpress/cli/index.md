@@ -3,7 +3,7 @@ mode: docs
 
 title: 命令行
 date: 2026-11-10 21:40:00
-updated: 2026-11-15 22:00:00
+updated: 2026-11-21 20:30:00
 description: xfmpress 命令行完整参考：create、dev、build、new、clean、info 六个命令的用法与选项，new 的 post / page / draft 三种布局与 scaffolds 模板，别名对照，以及构建输出的每一行含义。
 keywords: [xfmpress, xfm 命令, CLI, create, dev, build, new, page, draft, scaffolds, clean, info, 别名]
 order: 23
@@ -115,7 +115,7 @@ $ xfm build
 
 | 行 | 含义 |
 | --- | --- |
-| 页面 | 内容页 + 聚合页（标签 / 分类 / 系列）+ 分页页 + 索引页 |
+| 页面 | 内容页 + 聚合页（标签 / 分类 / 系列）+ 集合列表页 + 分页页 + 索引页 |
 | 插件 | 实际加载成功的插件名，空则提示按需安装 |
 | 附加产物 | 插件写出的非页面文件，超过 6 个会折叠显示 |
 | 静态资源 | 主题 `assets/` 与站点 `public/` 的拷贝数量 |

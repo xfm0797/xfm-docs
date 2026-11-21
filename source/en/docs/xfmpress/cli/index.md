@@ -3,7 +3,7 @@ mode: docs
 
 title: Command line
 date: 2026-11-10 22:44:00
-updated: 2026-11-15 22:00:00
+updated: 2026-11-21 20:30:00
 description: Complete xfmpress CLI reference — create, dev, build, new, clean and info with every option, the post / page / draft layouts and scaffolds, aliases, and how to read each line of build output.
 keywords: [xfmpress, xfm command, CLI, create, dev, build, new, page, draft, scaffolds, clean, info, aliases]
 order: 103
@@ -115,7 +115,7 @@ Line by line:
 
 | Line | Meaning |
 | --- | --- |
-| Pages | Content pages + taxonomy pages (tag / category / series) + pagination + index pages |
+| Pages | Content pages + taxonomy pages (tag / category / series) + collection list pages + pagination + index pages |
 | Plugins | Plugins that actually loaded; when empty you get an install hint |
 | Extra | Non-page files written by plugins, folded after six |
 | Assets | Files copied from the theme's `assets/` and the site's `public/` |

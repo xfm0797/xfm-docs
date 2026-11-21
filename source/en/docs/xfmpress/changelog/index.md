@@ -3,9 +3,9 @@ mode: docs
 
 title: Changelog
 date: 2026-11-10 23:00:00
-updated: 2026-11-15 22:00:00
-description: Every xfmpress release from v0.1.0 to v0.4.13 — the main line of each version, breaking changes, upgrade notes, and the versioning rule that makes it all unusual.
-keywords: [xfmpress, changelog, releases, upgrade, v0.4.13, breaking changes]
+updated: 2026-11-21 20:30:00
+description: Every xfmpress release from v0.1.0 to v0.4.14 — the main line of each version, breaking changes, upgrade notes, and the versioning rule that makes it all unusual.
+keywords: [xfmpress, changelog, releases, upgrade, v0.4.14, breaking changes]
 order: 111
 ---
 
@@ -13,7 +13,7 @@ order: 111
 
 [Chinese version](/docs/xfmpress/changelog/) · **English**
 
-xfmpress went from v0.1.0 on 2026-11-02 to v0.4.13 — nineteen releases in two weeks. This page tracks the main line of each one, so you can judge whether to upgrade and what to watch for.
+xfmpress went from v0.1.0 on 2026-11-02 to v0.4.14 — twenty releases in three weeks. This page tracks the main line of each one, so you can judge whether to upgrade and what to watch for.
 
 ## Versioning rule
 
@@ -29,6 +29,7 @@ There is one difference from the usual convention:
 
 | Version | Date | Main line |
 | --- | --- | --- |
+| 0.4.14 | 11-21 | Global data files, custom collections, multi-language, auto `desc` |
 | 0.4.13 | 11-15 | Repeat builds skip unchanged files: write phase 5.3 s → 0.9 s |
 | 0.4.12 | 11-15 | Indented code blocks inside list items; paragraph leading spaces |
 | 0.4.11 | 11-15 | Loose lists: a blank line no longer splits a list in two |
@@ -48,6 +49,21 @@ There is one difference from the usual convention:
 | 0.2.0 | 11-04 | Markdown gaps closed |
 | 0.1.1 | 11-03 | Docs and naming fixes |
 | 0.1.0 | 11-02 | First release |
+
+## v0.4.14
+
+This release adds the four pieces of infrastructure a site needs to grow into multi-section, multi-language territory, plus one concurrency fix in cleanup.
+
+### Added
+
+- **Global data files (`data/`)** — `.json` / `.yaml` / `.yml` / `.js` / `.mjs` files under `data/` (directory configurable via `dataDir`) merge into `site.data`, visible to every template and plugin: `data/authors.json` → `site.data.authors`, `data/team/members.yml` → `site.data.team.members`. Only JSON-serialisable values survive (functions and cycles are dropped) so the payload stays safe for workers; editing a data file invalidates **every page's** cache — templates may reference `site.data` anywhere. `.js` / `.mjs` load via `import()` and use the `default` export.
+- **Custom collections (`collections`)** — `collections: { projects: { dir, url, layout, perPage, title, posts } }` turns `content/projects/` into an independent section: its own list page `/projects/`, real static pagination `/projects/page/2/`, and `site.collections.projects` in templates. Items stay **out of** the default post stream, RSS and prev/next unless `posts: true`; both themes ship a `collection.html` layout.
+- **Multi-language (i18n)** — declare `site.languages` and per-page `lang` front-matter drives that page's `<html lang>`; pages sharing a `translationKey` become each other's translations (`page.translations`), and `xfm-plugin-seo` injects `hreflang` + `x-default` and `og:locale:alternate`. Single-language sites output none of this, at zero cost. Themes ship a `lang-switcher.html` partial, and nav items accept `translations: { en: { title, url } }`.
+- **Auto excerpt fallback (`page.desc`)** — pages without `description` get an excerpt truncated from the rendered body (140-character cap, noise stripped); templates use `page.desc` (`description || excerpt`) for list cards and meta tags. Both built-in themes' lists already render it.
+
+### Fixed
+
+- **Stale-output cleanup raced on directories.** `pruneStale` sorted directories deepest-first but removed them under `Promise.all`, so a parent could `rmdir` before its children and fail with `ENOTEMPTY` (silently swallowed), leaving empty directories behind — e.g. an old `/tags/x/page/` shell surviving after taxonomy pagination was turned off. Directories are now removed **sequentially**, deepest first; the race reproduced 5 times in 30 concurrent runs and 0 times in 36 after the fix.
 
 ## v0.4.13
 
@@ -255,7 +271,7 @@ The first release already contained the full core design:
 | --- | --- |
 | Before 0.4.2 | Install the plugin packages first: `npm i -D xfm-plugin-sitemap xfm-plugin-rss …`, otherwise the build fails |
 | 0.4.0 – 0.4.1 | Upgrade directly; `transformHtml` plugins no longer slow parallelism |
-| 0.4.2 – 0.4.13 | Upgrade directly, no breaking changes |
+| 0.4.2 – 0.4.14 | Upgrade directly, no breaking changes |
 | Any version | Run `xfm clean && xfm build` afterwards to rule out stale cache |
 
 The full text lives in the repository's [`CHANGELOG.md`](https://github.com/xfm0797/xfm/blob/main/CHANGELOG.md), each entry following Keep a Changelog with Added / Changed / Fixed / Breaking sections.

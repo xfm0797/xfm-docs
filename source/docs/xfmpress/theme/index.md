@@ -3,7 +3,7 @@ mode: docs
 
 title: 主题开发
 date: 2026-11-10 22:00:00
-updated: 2026-11-10 22:00:00
+updated: 2026-11-21 20:30:00
 description: xfmpress 主题开发指南：目录结构与各目录职责、布局文件的必需与可选清单、theme.config.js 的用法、资源打包规则、内置 default 与 docs 两套主题的差异，以及一个从零写起的最小主题。
 keywords: [xfmpress, 主题开发, layouts, partials, assets, theme.config.js, base.html, 布局]
 order: 27
@@ -51,6 +51,7 @@ themes/my-theme/
 | `page.html` | `defaults.layout` 的兜底值，也用于没有 `title` 的文件 | 建议有 |
 | `index.html` | 站点首页（`/`）与分页页 | 建议有 |
 | `taxonomy.html` | 标签 / 分类 / 系列聚合页 | 可选 |
+| `collection.html` | 自定义集合列表页（`collections` 配置驱动） | 可选 |
 | `categories.html` | 分类索引页（`/categories/`） | 可选 |
 | `archives.html` | 按年归档页（`/archives/`） | 可选 |
 

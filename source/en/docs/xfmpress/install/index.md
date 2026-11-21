@@ -3,7 +3,7 @@ mode: docs
 
 title: Install and upgrade
 date: 2026-11-10 22:42:00
-updated: 2026-11-15 22:00:00
+updated: 2026-11-21 20:30:00
 description: Three ways to install xfmpress (global, npx, project dependency), environment requirements, fixing permission errors and missing commands, upgrading, uninstalling, and troubleshooting.
 keywords: [xfmpress, install, npm install, npx, EACCES, Node version, upgrade, uninstall]
 order: 102
@@ -43,7 +43,7 @@ Closest to the Hexo habit — install once, run `xfm` anywhere:
 
 ```bash
 npm install -g xfmpress
-xfm --help          # the ⚡ xfm v0.4.13 banner means success
+xfm --help          # the ⚡ xfm v0.4.14 banner means success
 ```
 
 ### Option B: run without installing
@@ -103,7 +103,7 @@ source ~/.zshrc
 ## Verifying the install
 
 ```bash
-xfm --version     # 0.4.13
+xfm --version     # 0.4.14
 xfm --help        # every command and option
 ```
 

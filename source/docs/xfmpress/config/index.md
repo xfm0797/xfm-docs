@@ -3,7 +3,7 @@ mode: docs
 
 title: 配置
 date: 2026-11-10 21:45:00
-updated: 2026-11-15 22:00:00
+updated: 2026-11-21 20:30:00
 description: xfmpress 配置参考：配置文件的查找顺序与优先级，site、content、theme、pagination、indexes 以及各插件配置字段的默认值与含义。
 keywords: [xfmpress, 配置, xfm.config.mjs, 站点配置, pagination, indexes, workers, server]
 order: 24
@@ -71,7 +71,8 @@ export default {
 | `author` | `''` | 作者名，供插件与主题使用 |
 | `base` | `'/'` | 部署子路径，如 GitHub Pages 项目页 `'/xfm/'` |
 | `assets` | `'/assets/'` | 主题资源在站点里的访问前缀 |
-| `nav` | `[]` | 导航项数组，每项 `{ title, url }` |
+| `nav` | `[]` | 导航项数组，每项 `{ title, url }`；多语站可加 `translations` 按语言取标签 |
+| `languages` | 无 | 多语言站声明启用语言列表，如 `['zh-CN', 'en']`；不声明即单语站 |
 
 `site` 下没有列出的键也会原样进入模板上下文 —— 例如 `site.copyright` 可以直接在模板里用。
 
@@ -114,6 +115,67 @@ pagination: { enabled: true, perPage: 9, url: '/page/' },
 | `url` | `'/page/'` | 第 2 页起的路径前缀，生成 `/page/2/`、`/page/3/` |
 
 分页是**真实静态页**，不是 JS 分页 —— 每一页都有自己的 HTML、canonical 与标题，对 SEO 友好。模板里统一遍历 `pagination.posts`，不需要判断自己是第几页。
+
+## 全局数据文件
+
+```js
+dataDir: 'data', // 默认值
+```
+
+`data/` 下的 `.json` / `.yaml` / `.yml` / `.js` / `.mjs` 会在每次构建时加载，合并为模板与插件可用的 `site.data`：
+
+```text
+data/authors.json      → site.data.authors
+data/team/members.yml  → site.data.team.members   # 子目录即子对象
+```
+
+三条规则值得记住：
+
+- **只留纯数据**：加载后统一做一次 JSON 序列化再读回 —— 函数、循环引用会被丢弃，这是把值安全传给 worker 的前提；
+- **`.js` / `.mjs` 用 `import()` 加载**，取模块的 `default` 导出（没有 default 就取模块本身），路径带时间戳参数所以每次构建都会重新执行；
+- **改任何数据文件，全部页面的缓存失效** —— 模板可能在任何页面引用 `site.data`，无法精确判断哪些页受影响，索性全量重渲染。
+
+加载失败（JSON 语法错等）的单个文件会被跳过，不中断构建。
+
+## 自定义集合
+
+```js
+collections: {
+  projects: { dir: 'projects', perPage: 9, layout: 'collection.html' },
+},
+```
+
+把 `content/<dir>/` 下的内容归成一个独立分区，与默认文章流互不干扰：
+
+| 字段 | 默认值 | 说明 |
+| --- | --- | --- |
+| `dir` | 集合名 | 相对 `contentDir` 的子目录 |
+| `url` | `/<集合名>/` | 列表页地址，生成真实的静态分页 `/<集合名>/page/2/` |
+| `layout` | `collection.html` | 列表页布局，两套内置主题都提供 |
+| `perPage` | 继承 `pagination.perPage` | 每页条数，`0` 表示不分页 |
+| `title` / `description` | 集合名 | 列表页的标题与描述 |
+| `posts` | `false` | `true` 时条目同时进入默认文章流 `site.posts` |
+
+集合条目**不进**默认文章流、RSS / JSON Feed 与 prev / next 链条（feed 插件靠 `data.rss: false` 过滤，front-matter 显式写了 `rss` 的尊重用户选择）。模板里通过 `site.collections.<name>` 拿 `{ name, url, count, items }`。`content/<dir>/index.md` 留给用户手写列表页 —— 与生成页 URL 撞车时用户页优先。排序与首页一致：`weight` → 日期倒序 → URL。
+
+## 多语言
+
+```js
+site: { lang: 'zh-CN', languages: ['zh-CN', 'en'] },
+```
+
+- **不声明 `languages`**（或只写一项）：单语站，`<html lang>` 用 `site.lang`，翻译相关的处理整段跳过，零开销；
+- **声明多项后**：页面 front-matter 的 `lang` 驱动该页的 `<html lang>` 与 SEO 插件的 `og:locale`；相同 `translationKey` 的页面互为翻译 —— 模板里 `page.translations` 是 `[{ lang, url, title }]`，`xfm-plugin-seo` 自动注入 `hreflang` 与 `x-default`（取默认语言版本）、`og:locale:alternate`。
+
+导航项可以带 `translations`，按当前页语言解析标签与链接：
+
+```js
+nav: [
+  { title: '关于', url: '/about/', translations: { en: { title: 'About', url: '/en/about/' } } },
+],
+```
+
+两套内置主题都带 `lang-switcher.html` 片段，供语言切换器挂进布局。
 
 ## 索引页
 

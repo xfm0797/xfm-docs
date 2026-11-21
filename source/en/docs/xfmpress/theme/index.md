@@ -3,7 +3,7 @@ mode: docs
 
 title: Theme development
 date: 2026-11-10 22:52:00
-updated: 2026-11-10 22:52:00
+updated: 2026-11-21 20:30:00
 description: How to build an xfmpress theme — directory responsibilities, the required and optional layouts, theme.config.js, the asset pipeline, how default and docs differ, and a minimal theme written from scratch.
 keywords: [xfmpress, theme development, layouts, partials, assets, theme.config.js, base.html, layouts]
 order: 107
@@ -51,6 +51,7 @@ The engine picks a layout by page type. A missing layout means that kind of page
 | `page.html` | Fallback for `defaults.layout`, and for files without `title` | Recommended |
 | `index.html` | The home page (`/`) and paginated pages | Recommended |
 | `taxonomy.html` | Tag / category / series pages | Optional |
+| `collection.html` | Custom collection list pages (driven by `collections`) | Optional |
 | `categories.html` | Category index (`/categories/`) | Optional |
 | `archives.html` | Yearly archive (`/archives/`) | Optional |
 

@@ -3,7 +3,7 @@ mode: docs
 
 title: 模板语法
 date: 2026-11-10 21:55:00
-updated: 2026-11-10 21:55:00
+updated: 2026-11-21 20:30:00
 description: xfmpress 模板语法完整参考：输出与转义、六个过滤器、if/for/set 控制结构、include 与 extend/block 继承、表达式规则，以及 site/page/content/headings 等模板上下文。
 keywords: [xfmpress, 模板, 模板语法, Nunjucks, extend, block, include, 过滤器, 上下文]
 order: 26
@@ -205,6 +205,9 @@ order: 26
 | `site.categories` | 分类数组，结构同上 |
 | `site.series` | 系列数组，结构同上 |
 | `site.navGroups` | 侧栏分组，每项 `{ title, items: [{ title, url }] }` |
+| `site.data` | `data/` 全局数据文件合并出的对象（`data/authors.json` → `site.data.authors`） |
+| `site.collections` | 自定义集合，每项 `{ name, url, count, items }` |
+| `site.languages` / `site.defaultLang` | 启用的语言列表与默认语言；单语站为 `[site.lang]` |
 
 `page` 下可用的字段：
 
@@ -216,6 +219,9 @@ order: 26
 | `page.weight` / `page.layout` | 排序权重与布局名 |
 | `page.data` | front-matter 原始对象，含 `prev` / `next` / `related` 等注入数据 |
 | `page.excerpt` / `page.readTime` | 摘要与阅读时长（分钟） |
+| `page.desc` | 列表卡片与 meta 用的摘要：`description || excerpt`（没写 description 就是自动截取的正文） |
+| `page.translations` | 同 `translationKey` 的其他语言版本 `[{ lang, url, title }]`，单语站恒为 `[]` |
+| `page.lang` / `page.collection` | 该页语言标记；条目所属集合名，不属于任何集合时为空 |
 | `page.toc` | 该页标题列表 |
 
 `page.data` 是最有用的一层：插件写入的跨页数据都挂在这里（`related` 相关文章、`prev` / `next` 上下篇），模板直接遍历即可。

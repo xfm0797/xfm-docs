@@ -1,7 +1,7 @@
 ---
 title: 文档中心
 date: 2026-10-11 09:00:00
-updated: 2026-11-10 22:25:00
+updated: 2026-11-21 20:30:00
 description: XFM 开源官方文档中心 —— 收录 hexo-theme-xfm 与 hexo-theme-xongyi 两套 Hexo 主题文档、TypeScript 与 Rust 官方文档中文整理版，以及自研项目 xfmpress 的官方手册。
 keywords: [XFM, Hexo 主题, 文档, hexo-theme-xfm, hexo-theme-xongyi, TypeScript, Rust, xfmpress]
 order: 0
@@ -160,7 +160,7 @@ Rust 官方教程 The Book 的中文整理版：从所有权与借用读到泛�
 
 ## 五、项目 · xfmpress
 
-自研的**静态站点生成器**官方文档，位于 `/docs/xfmpress/`。对应 v0.4.13，从安装一路写到内部架构：
+自研的**静态站点生成器**官方文档，位于 `/docs/xfmpress/`。对应 v0.4.14，从安装一路写到内部架构：
 
 {% row %}
 {% col %}

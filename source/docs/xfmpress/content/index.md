@@ -3,7 +3,7 @@ mode: docs
 
 title: 内容与 Markdown
 date: 2026-11-10 21:50:00
-updated: 2026-11-15 22:00:00
+updated: 2026-11-21 20:30:00
 description: xfmpress 的内容组织方式：content 目录与 URL 的对应规则、front-matter 全部字段、文章与页面与草稿的区别、scaffolds 脚手架、Markdown 扩展语法、相对链接解析与摘要生成。
 keywords: [xfmpress, Markdown, front-matter, 页面, type: page, scaffolds, 草稿, URL, 提示容器, 脚注, 相对链接]
 order: 25
@@ -80,6 +80,9 @@ toc: true
 | `type` | string | 设为 `page` 时不进入文章列表、RSS 与上下篇 |
 | `url` / `permalink` / `slug` | string | 手动指定地址 |
 | `group` / `section` | string | docs 主题的侧栏分组名 |
+| `lang` | string | 该页语言（如 `en`）；多语站驱动 `<html lang>` 与 `og:locale` |
+| `translationKey` | string | 相同键的页面互为翻译（仅多语站生效），进 `page.translations` |
+| `rss` | bool | 显式设为 `false` 可把单页从 RSS / JSON Feed 排除 |
 
 `type: page` 这一项很实用：关于页、友链页这类「不是文章」的内容，标上它就不会出现在首页列表、RSS 和 `prev` / `next` 链条里。
 
